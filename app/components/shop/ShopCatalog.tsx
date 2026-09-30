@@ -35,7 +35,7 @@ const FILTERS: { key: Tag | null; label: string }[] = [
   { key: null, label: "All" },
   { key: "grappling", label: "BJJ / Judo" },
   { key: "striking", label: "Boxing / Kickboxing" },
-  { key: "wear", label: "Things to wear" },
+  { key: "wear", label: "Clothing" },
   { key: "eat", label: "Nutrition" },
 ];
 
@@ -111,7 +111,7 @@ export default function ShopCatalog() {
           Academy <span style={{ color: "#ee6a1f" }}>shop</span>
         </h1>
 
-        <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 40 }}>
+        <div className="sa-filter-row" style={{ marginBottom: 40 }}>
           {FILTERS.map((f) => {
             const isActive = activeFilter === f.key;
             return (
@@ -126,6 +126,7 @@ export default function ShopCatalog() {
                   letterSpacing: "0.06em",
                   padding: "9px 16px",
                   cursor: "pointer",
+                  flexShrink: 0,
                   border: `1px solid ${isActive ? "#ee6a1f" : "#d8d4cd"}`,
                   background: isActive ? "#ee6a1f" : "transparent",
                   color: isActive ? "#ffffff" : "#141414",
@@ -137,7 +138,13 @@ export default function ShopCatalog() {
           })}
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(4,minmax(0,1fr))", gap: 32 }}>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,220px),1fr))",
+            gap: 24,
+          }}
+        >
           {pageItems.map((it) => (
             <div key={it.name}>
               <div
@@ -262,7 +269,8 @@ export default function ShopCatalog() {
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            gap: 16,
+            flexWrap: "wrap",
+            gap: 12,
             padding: "14px 14px 14px 22px",
             boxShadow: "0 10px 30px rgba(0,0,0,0.3)",
           }}

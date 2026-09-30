@@ -60,6 +60,7 @@ export default function ShopHeader() {
         >
           <Link href="/#programs">Programs</Link>
           <Link href="/#schedule">Schedule</Link>
+          <Link href="/#instructors">Team</Link>
           <Link
             href="/#trial"
             className="sa-nav-cta"

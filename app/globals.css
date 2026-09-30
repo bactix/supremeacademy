@@ -85,7 +85,97 @@ select {
   background: #1ebe5a !important;
 }
 
+/* Schedule: highlight an empty slot on hover */
+.sa-cell-empty {
+  cursor: default;
+}
+
+.sa-cell-empty:hover {
+  background: rgba(238, 106, 31, 0.18) !important;
+}
+
 /* Shop: add-to-order button */
 .sa-shop-add:hover {
   background: var(--sa-orange) !important;
+}
+
+/* Shop: filter row — pills that scroll horizontally on small screens */
+.sa-filter-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 640px) {
+  .sa-filter-row {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    margin-left: -24px;
+    margin-right: -24px;
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  .sa-filter-row::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Schedule: toolbar — title/actions/filters reflow so actions sit under the
+   filter tags on mobile instead of beside the title */
+.sa-schedule-toolbar {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-areas:
+    "title actions"
+    "hint hint"
+    "filters filters";
+  align-items: end;
+  column-gap: 16px;
+  row-gap: 16px;
+  margin-bottom: 28px;
+}
+
+@media (max-width: 640px) {
+  .sa-schedule-toolbar {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "title"
+      "hint"
+      "filters"
+      "actions";
+    align-items: start;
+  }
+}
+
+.sa-schedule-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 640px) {
+  .sa-schedule-actions {
+    border-top: 1px solid #262422;
+    padding-top: 16px;
+  }
+}
+
+/* Schedule: timetable scrolls horizontally instead of squeezing on mobile */
+.sa-timetable-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 4px;
+}
+
+.sa-timetable-hint {
+  display: none;
+}
+
+@media (max-width: 800px) {
+  .sa-timetable-hint {
+    display: block;
+  }
 }

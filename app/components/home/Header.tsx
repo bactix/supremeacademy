@@ -59,6 +59,7 @@ export default function Header() {
         >
           <a href="#programs">Programs</a>
           <a href="#schedule">Schedule</a>
+          <a href="#instructors">Team</a>
           <a href="/shop">Shop</a>
           <a
             href="#trial"

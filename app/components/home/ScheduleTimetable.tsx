@@ -189,11 +189,12 @@ function buildGrid(activeFilter: FilterKey | "empty" | null) {
         fontStyle: closed ? "italic" : "normal",
         fontSize: closed ? 12 : undefined,
         textAlign: closed ? "center" : undefined,
-        transition: "opacity 0.15s, box-shadow 0.15s",
+        transition: "background 0.15s, opacity 0.15s, box-shadow 0.15s",
       };
 
       return {
         hasClass: !!found,
+        isEmpty,
         name: found ? found[1] : closed ? "Closed" : "",
         coach: found ? found[2] : "",
         tag: found ? found[3] : "",
@@ -319,12 +320,20 @@ async function downloadSchedule() {
   }, "image/png");
 }
 
+function slotKey(dayIndex: number, time: string) {
+  return `${dayIndex}:${time}`;
+}
+
 function RowCells({
   time,
   cells,
+  selected,
+  onToggle,
 }: {
   time: string;
   cells: ReturnType<typeof buildGrid>[number]["cells"];
+  selected: Set<string>;
+  onToggle: (key: string) => void;
 }) {
   return (
     <>
@@ -342,67 +351,118 @@ function RowCells({
       >
         {time}
       </div>
-      {cells.map((cell, i) => (
-        <div key={i} style={cell.boxStyle}>
-          {cell.hasClass && (
-            <>
+      {cells.map((cell, i) => {
+        const key = slotKey(i, time);
+        const isSelected = cell.isEmpty && selected.has(key);
+        const style: CSSProperties = isSelected
+          ? {
+              ...cell.boxStyle,
+              background: "#ee6a1f",
+              color: "#141414",
+              boxShadow: "inset 0 0 0 2px #141414",
+            }
+          : cell.boxStyle;
+
+        return (
+          <div
+            key={i}
+            className={cell.isEmpty && !isSelected ? "sa-cell-empty" : undefined}
+            style={{ ...style, cursor: cell.isEmpty ? "pointer" : style.cursor }}
+            onClick={cell.isEmpty ? () => onToggle(key) : undefined}
+            role={cell.isEmpty ? "button" : undefined}
+            aria-pressed={cell.isEmpty ? isSelected : undefined}
+          >
+            {cell.hasClass && (
+              <>
+                <div
+                  className="font-kanit"
+                  style={{
+                    fontStyle: "italic",
+                    fontWeight: 600,
+                    fontSize: 11,
+                    textTransform: "uppercase",
+                    lineHeight: 1.15,
+                    wordBreak: "break-word",
+                  }}
+                >
+                  {cell.name}
+                </div>
+                <div style={{ fontSize: 9, color: "#a9a39c", marginTop: 2, wordBreak: "break-word" }}>
+                  {cell.coach}
+                </div>
+                <div
+                  style={{
+                    fontSize: 8,
+                    color: "#ee6a1f",
+                    textTransform: "uppercase",
+                    letterSpacing: "0.04em",
+                    marginTop: 2,
+                  }}
+                >
+                  {cell.tag}
+                </div>
+              </>
+            )}
+            {isSelected && (
               <div
                 className="font-kanit"
-                style={{
-                  fontStyle: "italic",
-                  fontWeight: 600,
-                  fontSize: 11,
-                  textTransform: "uppercase",
-                  lineHeight: 1.15,
-                  wordBreak: "break-word",
-                }}
+                style={{ fontWeight: 700, fontSize: 11, textAlign: "center" }}
               >
-                {cell.name}
+                ✓ Selected
               </div>
-              <div style={{ fontSize: 9, color: "#a9a39c", marginTop: 2, wordBreak: "break-word" }}>
-                {cell.coach}
-              </div>
-              <div
-                style={{
-                  fontSize: 8,
-                  color: "#ee6a1f",
-                  textTransform: "uppercase",
-                  letterSpacing: "0.04em",
-                  marginTop: 2,
-                }}
-              >
-                {cell.tag}
-              </div>
-            </>
-          )}
-        </div>
-      ))}
+            )}
+          </div>
+        );
+      })}
     </>
   );
 }
+
+const WHATSAPP_NUMBER = "9613395854";
 
 export default function ScheduleTimetable() {
   const [activeFilter, setActiveFilter] = useState<FilterKey | "empty" | null>(
     null,
   );
+  const [selected, setSelected] = useState<Set<string>>(new Set());
   const grid = useMemo(() => buildGrid(activeFilter), [activeFilter]);
+
+  const toggleSlot = (key: string) => {
+    setSelected((prev) => {
+      const next = new Set(prev);
+      if (next.has(key)) next.delete(key);
+      else next.add(key);
+      return next;
+    });
+  };
+
+  const selectedSlots = Array.from(selected)
+    .map((key) => {
+      const [dayIndex, time] = key.split(":");
+      return { dayIndex: Number(dayIndex), time };
+    })
+    .sort((a, b) => a.dayIndex - b.dayIndex || TIMES.indexOf(a.time) - TIMES.indexOf(b.time));
+
+  const reserveSlots = () => {
+    if (selectedSlots.length === 0) return;
+    const lines = selectedSlots.map((s) => `• ${DAY_NAMES[s.dayIndex]} ${s.time}`).join("\n");
+    const message =
+      selectedSlots.length === 1
+        ? `Hi Supreme Academy! I want to reserve the slot with this date and time:\n${lines}`
+        : `Hi Supreme Academy! I want to reserve multiple slots with these dates and times:\n${lines}`;
+    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+    window.open(url, "_blank", "noopener");
+    setSelected(new Set());
+  };
 
   return (
     <section id="schedule" style={{ background: "#121212", color: "#f7f6f4" }}>
       <div style={{ width: "90%", maxWidth: "90%", margin: "0 auto", padding: "96px 0" }}>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "end",
-            gap: 16,
-            flexWrap: "wrap",
-            marginBottom: 20,
-          }}
-        >
+        <div className="sa-schedule-toolbar">
           <h2
             className="font-kanit"
             style={{
+              gridArea: "title",
               fontStyle: "italic",
               fontWeight: 800,
               fontSize: "clamp(38px,5vw,64px)",
@@ -413,55 +473,107 @@ export default function ScheduleTimetable() {
           >
             Weekly <span style={{ color: "#ee6a1f" }}>timetable</span>
           </h2>
-          <button
-            onClick={downloadSchedule}
-            className="font-kanit"
-            style={{
-              fontWeight: 600,
-              fontSize: 14,
-              textTransform: "uppercase",
-              letterSpacing: "0.06em",
-              padding: "10px 18px",
-              cursor: "pointer",
-              border: "1px solid #ee6a1f",
-              background: "transparent",
-              color: "#ee6a1f",
-            }}
-          >
-            Download
-          </button>
-        </div>
 
-        <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 28 }}>
-          {FILTER_BUTTONS.map((fb) => {
-            const isActive = activeFilter === fb.key;
-            return (
+          <p style={{ gridArea: "hint", fontSize: 13, color: "#7a746d", margin: 0 }}>
+            Tap an open slot to select it, then reserve — we&apos;ll confirm over WhatsApp.
+          </p>
+
+          <div style={{ gridArea: "filters" }}>
+            <div
+              className="font-kanit"
+              style={{
+                fontWeight: 600,
+                fontSize: 12,
+                color: "#7a746d",
+                textTransform: "uppercase",
+                letterSpacing: "0.08em",
+                marginBottom: 10,
+              }}
+            >
+              Filter classes
+            </div>
+            <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+              {FILTER_BUTTONS.map((fb) => {
+                const isActive = activeFilter === fb.key;
+                return (
+                  <button
+                    key={fb.key}
+                    onClick={() =>
+                      setActiveFilter((prev) => (prev === fb.key ? null : fb.key))
+                    }
+                    className="font-kanit"
+                    style={{
+                      fontWeight: 600,
+                      fontSize: 14,
+                      textTransform: "uppercase",
+                      letterSpacing: "0.06em",
+                      padding: "9px 16px",
+                      cursor: "pointer",
+                      border: `1px solid ${isActive ? "#ee6a1f" : "#4a4744"}`,
+                      background: isActive ? "#ee6a1f" : "transparent",
+                      color: isActive ? "#ffffff" : "#cfcac3",
+                    }}
+                  >
+                    {fb.label}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="sa-schedule-actions" style={{ gridArea: "actions" }}>
+            {selectedSlots.length > 0 && (
               <button
-                key={fb.key}
-                onClick={() =>
-                  setActiveFilter((prev) => (prev === fb.key ? null : fb.key))
-                }
+                onClick={reserveSlots}
                 className="font-kanit"
                 style={{
                   fontWeight: 600,
                   fontSize: 14,
                   textTransform: "uppercase",
                   letterSpacing: "0.06em",
-                  padding: "9px 16px",
+                  padding: "10px 18px",
                   cursor: "pointer",
-                  border: `1px solid ${isActive ? "#ee6a1f" : "#4a4744"}`,
-                  background: isActive ? "#ee6a1f" : "transparent",
-                  color: isActive ? "#ffffff" : "#cfcac3",
+                  border: "1px solid #ee6a1f",
+                  background: "#ee6a1f",
+                  color: "#ffffff",
+                  boxShadow: "0 0 0 3px rgba(238,106,31,0.25)",
                 }}
               >
-                {fb.label}
+                Reserve {selectedSlots.length} slot{selectedSlots.length > 1 ? "s" : ""}
               </button>
-            );
-          })}
+            )}
+            <button
+              onClick={downloadSchedule}
+              className="font-kanit"
+              style={{
+                fontWeight: 600,
+                fontSize: 14,
+                textTransform: "uppercase",
+                letterSpacing: "0.06em",
+                padding: "10px 18px",
+                cursor: "pointer",
+                border: "1px solid #4a4744",
+                background: "transparent",
+                color: "#cfcac3",
+              }}
+            >
+              Download
+            </button>
+          </div>
         </div>
 
-        <div>
-          <div style={{ display: "grid", gridTemplateColumns: "64px repeat(7,minmax(0,1fr))" }}>
+        <p className="sa-timetable-hint" style={{ fontSize: 12, color: "#7a746d", margin: "0 0 12px" }}>
+          Swipe to see the full week →
+        </p>
+
+        <div className="sa-timetable-scroll">
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "64px repeat(7,minmax(0,1fr))",
+              minWidth: 700,
+            }}
+          >
             <div />
             {DAY_NAMES.map((dn) => (
               <div
@@ -483,7 +595,13 @@ export default function ScheduleTimetable() {
               </div>
             ))}
             {grid.map((row) => (
-              <RowCells key={row.time} time={row.time} cells={row.cells} />
+              <RowCells
+                key={row.time}
+                time={row.time}
+                cells={row.cells}
+                selected={selected}
+                onToggle={toggleSlot}
+              />
             ))}
           </div>
         </div>
