@@ -21,49 +21,25 @@ const INSTRUCTORS = [
 
 export default function Instructors() {
   return (
-    <section id="instructors" style={{ maxWidth: 1240, margin: "0 auto", padding: "104px 24px" }}>
-      <h2
-        className="font-kanit"
-        style={{
-          fontStyle: "italic",
-          fontWeight: 800,
-          fontSize: "clamp(38px,5vw,64px)",
-          lineHeight: 0.95,
-          margin: "0 0 48px",
-          textTransform: "uppercase",
-        }}
-      >
-        Meet the <span style={{ color: "#ee6a1f" }}>coaches</span>
+    <section id="instructors" className="mx-auto max-w-310 px-6 py-26">
+      <h2 className="mb-12 font-heading text-[clamp(38px,5vw,64px)] font-extrabold uppercase italic leading-[0.95]">
+        Meet the <span className="text-orange">coaches</span>
       </h2>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,360px),1fr))", gap: 48 }}>
+      <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,360px),1fr))] gap-12">
         {INSTRUCTORS.map((ins) => (
           <div key={ins.name}>
-            <div style={{ aspectRatio: "4/5", overflow: "hidden", marginBottom: 20 }}>
-              <div
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  background: "repeating-linear-gradient(135deg,#efece8 0 12px,#e6e2dd 12px 24px)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <span style={{ fontFamily: "ui-monospace, Menlo, monospace", fontSize: 12, color: "#7a746d", textAlign: "center", padding: "0 16%" }}>
+            <div className="mb-5 aspect-4/5 overflow-hidden">
+              <div className="flex h-full w-full items-center justify-center bg-[repeating-linear-gradient(135deg,#efece8_0_12px,#e6e2dd_12px_24px)]">
+                <span className="px-[16%] text-center font-[ui-monospace,Menlo,monospace] text-xs text-faint">
                   {ins.photo}
                 </span>
               </div>
             </div>
-            <div className="font-kanit" style={{ fontStyle: "italic", fontWeight: 700, fontSize: 28, textTransform: "uppercase" }}>
-              {ins.name}
-            </div>
-            <div
-              className="font-kanit"
-              style={{ fontSize: 13, fontWeight: 600, color: "#ee6a1f", textTransform: "uppercase", letterSpacing: "0.08em", marginTop: 4 }}
-            >
+            <div className="font-heading text-[28px] font-bold uppercase italic">{ins.name}</div>
+            <div className="mt-1 font-heading text-[13px] font-semibold uppercase tracking-[0.08em] text-orange">
               {ins.disciplines}
             </div>
-            <div style={{ fontSize: 15, color: "#7a746d", marginTop: 10, lineHeight: 1.5 }}>{ins.bio}</div>
+            <div className="mt-2.5 text-[15px] leading-normal text-faint">{ins.bio}</div>
           </div>
         ))}
       </div>

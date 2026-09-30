@@ -28,7 +28,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       data-scroll-behavior="smooth"
       className={`${kanit.variable} ${barlow.variable}`}
     >
-      <body>{children}</body>
+      <body className="bg-cream text-ink antialiased">{children}</body>
     </html>
   );
 }

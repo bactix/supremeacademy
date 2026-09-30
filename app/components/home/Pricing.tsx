@@ -11,69 +11,33 @@ const PLANS = [
 
 export default function Pricing() {
   return (
-    <section id="pricing" style={{ background: "#0c0c0c", color: "#f7f6f4" }}>
-      <div style={{ maxWidth: 1240, margin: "0 auto", padding: "104px 24px" }}>
-        <h2
-          className="font-kanit"
-          style={{
-            fontStyle: "italic",
-            fontWeight: 800,
-            fontSize: "clamp(38px,5vw,64px)",
-            lineHeight: 0.95,
-            margin: "0 0 48px",
-            textTransform: "uppercase",
-          }}
-        >
-          Membership <span style={{ color: "#ee6a1f" }}>plans</span>
+    <section id="pricing" className="bg-darker text-cream">
+      <div className="mx-auto max-w-310 px-6 py-26">
+        <h2 className="mb-12 font-heading text-[clamp(38px,5vw,64px)] font-extrabold uppercase italic leading-[0.95]">
+          Membership <span className="text-orange">plans</span>
         </h2>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,240px),1fr))", gap: 24 }}>
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,240px),1fr))] gap-6">
           {PLANS.map((pl) => (
             <div
               key={pl.name}
-              style={{
-                border: `1px solid ${pl.badge ? "#ee6a1f" : "#262422"}`,
-                padding: "32px 24px",
-                background: pl.badge ? "rgba(238,106,31,0.06)" : "transparent",
-              }}
+              className={`border px-6 py-8 ${
+                pl.badge ? "border-orange bg-orange/6" : "border-border-dark"
+              }`}
             >
-              <div
-                className="font-kanit"
-                style={{ fontStyle: "italic", fontWeight: 800, fontSize: 28, textTransform: "uppercase", color: "#ee6a1f", marginBottom: 4 }}
-              >
+              <div className="mb-1 font-heading text-[28px] font-extrabold uppercase italic text-orange">
                 {pl.name}
               </div>
-              <div
-                className="font-kanit"
-                style={{ fontWeight: 600, fontSize: 14, textTransform: "uppercase", letterSpacing: "0.08em", color: "#a9a39c" }}
-              >
+              <div className="font-heading text-sm font-semibold uppercase tracking-[0.08em] text-muted">
                 {pl.label}
               </div>
-              <div className="font-kanit" style={{ fontStyle: "italic", fontWeight: 800, fontSize: 44, marginTop: 12 }}>
-                ${pl.price}
-              </div>
+              <div className="mt-3 font-heading text-[44px] font-extrabold italic">${pl.price}</div>
               {pl.hasSaving && (
-                <div
-                  className="font-kanit"
-                  style={{
-                    display: "inline-block",
-                    marginTop: 10,
-                    background: "#ee6a1f",
-                    color: "#141414",
-                    fontWeight: 600,
-                    fontSize: 13,
-                    textTransform: "uppercase",
-                    letterSpacing: "0.04em",
-                    padding: "4px 10px",
-                  }}
-                >
+                <div className="mt-2.5 inline-block bg-orange px-2.5 py-1 font-heading text-[13px] font-semibold uppercase tracking-[0.04em] text-ink">
                   Save ${pl.saving}
                 </div>
               )}
               {pl.badge && (
-                <div
-                  className="font-kanit"
-                  style={{ fontWeight: 600, fontSize: 12, textTransform: "uppercase", letterSpacing: "0.06em", color: "#ee6a1f", marginTop: 8 }}
-                >
+                <div className="mt-2 font-heading text-xs font-semibold uppercase tracking-[0.06em] text-orange">
                   {pl.badge}
                 </div>
               )}

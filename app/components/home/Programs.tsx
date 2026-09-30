@@ -29,93 +29,39 @@ const PROGRAMS = [
 
 export default function Programs() {
   return (
-    <section id="programs" style={{ maxWidth: 1240, margin: "0 auto", padding: "104px 24px 96px" }}>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "end",
-          gap: 24,
-          flexWrap: "wrap",
-          marginBottom: 48,
-        }}
-      >
-        <h2
-          className="font-kanit"
-          style={{
-            fontStyle: "italic",
-            fontWeight: 800,
-            fontSize: "clamp(38px,5vw,64px)",
-            lineHeight: 0.95,
-            margin: 0,
-            textTransform: "uppercase",
-          }}
-        >
+    <section id="programs" className="mx-auto max-w-310 px-6 pb-24 pt-26">
+      <div className="mb-12 flex flex-wrap items-end justify-between gap-6">
+        <h2 className="font-heading text-[clamp(38px,5vw,64px)] font-extrabold uppercase italic leading-[0.95]">
           Our programs
         </h2>
-        <p style={{ maxWidth: 420, margin: 0, fontSize: 17, lineHeight: 1.55, color: "#55504a", textWrap: "pretty" }}>
+        <p className="max-w-105 text-[17px] leading-[1.55] text-body text-pretty">
           Pick one discipline or combine all three. Every membership includes open mat and strength
           sessions.
         </p>
       </div>
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,320px),1fr))",
-          gap: 24,
-        }}
-      >
+      <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,320px),1fr))] gap-6">
         {PROGRAMS.map((p) => (
           <article
             key={p.num}
-            className="sa-card"
-            style={{ background: "#ffffff", display: "flex", flexDirection: "column", border: "1px solid #e7e4df" }}
+            className="flex flex-col border border-border bg-white hover:border-orange"
           >
-            <div
-              style={{
-                aspectRatio: "4/3",
-                background: "repeating-linear-gradient(135deg,#efece8 0 12px,#e6e2dd 12px 24px)",
-                position: "relative",
-              }}
-            >
-              <Image src={p.img} alt={p.alt} fill sizes="(max-width: 900px) 100vw, 400px" style={{ objectFit: "cover" }} />
-              <span
-                className="font-kanit"
-                style={{
-                  position: "absolute",
-                  top: 16,
-                  left: 16,
-                  background: "#141414",
-                  color: "#ffffff",
-                  fontWeight: 600,
-                  fontSize: 13,
-                  padding: "4px 10px",
-                  letterSpacing: "0.08em",
-                }}
-              >
+            <div className="relative aspect-4/3 bg-[repeating-linear-gradient(135deg,#efece8_0_12px,#e6e2dd_12px_24px)]">
+              <Image src={p.img} alt={p.alt} fill sizes="(max-width: 900px) 100vw, 400px" className="object-cover" />
+              <span className="absolute left-4 top-4 bg-ink px-2.5 py-1 font-heading text-[13px] font-semibold tracking-[0.08em] text-white">
                 {p.num}
               </span>
             </div>
-            <div style={{ padding: "28px 28px 32px", display: "flex", flexDirection: "column", gap: 14, flex: 1 }}>
-              <h3
-                className="font-kanit"
-                style={{ fontStyle: "italic", fontWeight: 800, fontSize: 32, margin: 0, textTransform: "uppercase", lineHeight: 1 }}
-              >
+            <div className="flex flex-1 flex-col gap-3.5 px-7 pb-8 pt-7">
+              <h3 className="font-heading text-[32px] font-extrabold uppercase italic leading-none">
                 {p.name}
               </h3>
-              <div
-                className="font-kanit"
-                style={{ fontWeight: 600, fontSize: 14, color: "#c4520f", textTransform: "uppercase", letterSpacing: "0.1em" }}
-              >
+              <div className="font-heading text-sm font-semibold uppercase tracking-widest text-orange-dark">
                 {p.tag}
               </div>
-              <p style={{ margin: 0, fontSize: 16, lineHeight: 1.6, color: "#55504a", flex: 1, textWrap: "pretty" }}>
-                {p.body}
-              </p>
+              <p className="flex-1 text-base leading-[1.6] text-body text-pretty">{p.body}</p>
               <a
                 href="#schedule"
-                className="font-kanit"
-                style={{ fontWeight: 600, fontSize: 15, textTransform: "uppercase", letterSpacing: "0.08em", marginTop: 8 }}
+                className="mt-2 font-heading text-[15px] font-semibold uppercase tracking-[0.08em] text-ink hover:text-orange"
               >
                 See class times →
               </a>

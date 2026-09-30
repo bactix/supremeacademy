@@ -9,30 +9,13 @@ export default function WhatsAppButton() {
       target="_blank"
       rel="noopener"
       aria-label="Chat with us on WhatsApp"
-      className="font-kanit sa-whatsapp"
-      style={{
-        position: "fixed",
-        right: 24,
-        bottom: 24,
-        zIndex: 20,
-        display: "flex",
-        alignItems: "center",
-        gap: 10,
-        background: "#25d366",
-        color: "#0b2e17",
-        padding: "14px 22px 14px 16px",
-        borderRadius: 999,
-        boxShadow: "0 8px 24px rgba(0,0,0,0.28)",
-        fontWeight: 600,
-        fontSize: 16,
-        letterSpacing: "0.02em",
-      }}
+      className="fixed bottom-6 right-6 z-20 flex items-center gap-2.5 rounded-full bg-whatsapp py-3.5 pl-4 pr-5.5 font-heading text-base font-semibold tracking-[0.02em] text-whatsapp-dark shadow-[0_8px_24px_rgba(0,0,0,0.28)] hover:bg-[#1ebe5a]"
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/whatsapp.svg"
         alt=""
-        style={{ width: 24, height: 24, display: "block" }}
+        className="block h-6 w-6"
       />
       <span>Chat on WhatsApp</span>
     </a>

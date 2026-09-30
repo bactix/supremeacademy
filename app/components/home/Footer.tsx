@@ -1,32 +1,23 @@
 export default function Footer() {
   return (
-    <footer style={{ background: "#0c0c0c", color: "#a9a39c" }}>
-      <div
-        style={{
-          maxWidth: 1240,
-          margin: "0 auto",
-          padding: "56px 24px 40px",
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit,minmax(200px,1fr))",
-          gap: 36,
-        }}
-      >
-        <div style={{ fontSize: 15, lineHeight: 1.7 }}>
-          <div className="font-kanit" style={{ fontWeight: 600, color: "#ffffff", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 8 }}>
+    <footer className="bg-darker text-muted">
+      <div className="mx-auto grid max-w-310 grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-9 px-6 pb-10 pt-14">
+        <div className="text-[15px] leading-[1.7]">
+          <div className="mb-2 font-heading font-semibold uppercase tracking-[0.08em] text-white">
             Visit
           </div>
           Tripoli, Lebanon
         </div>
-        <div style={{ fontSize: 15, lineHeight: 1.7 }}>
-          <div className="font-kanit" style={{ fontWeight: 600, color: "#ffffff", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 8 }}>
+        <div className="text-[15px] leading-[1.7]">
+          <div className="mb-2 font-heading font-semibold uppercase tracking-[0.08em] text-white">
             Contact
           </div>
-          <a href="tel:+9613395854" style={{ color: "inherit" }}>
+          <a href="tel:+9613395854" className="text-inherit">
             +961 3 395 854
           </a>
         </div>
-        <div style={{ fontSize: 15, lineHeight: 1.7 }}>
-          <div className="font-kanit" style={{ fontWeight: 600, color: "#ffffff", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 8 }}>
+        <div className="text-[15px] leading-[1.7]">
+          <div className="mb-2 font-heading font-semibold uppercase tracking-[0.08em] text-white">
             Hours
           </div>
           Mon–Fri 6:00–21:30

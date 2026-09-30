@@ -1,59 +1,28 @@
 export default function Location() {
   return (
-    <section id="location" style={{ background: "#141414", color: "#f7f6f4" }}>
-      <div
-        style={{
-          maxWidth: 1240,
-          margin: "0 auto",
-          padding: "104px 24px",
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,360px),1fr))",
-          gap: 48,
-          alignItems: "center",
-        }}
-      >
+    <section id="location" className="bg-ink text-cream">
+      <div className="mx-auto grid max-w-310 grid-cols-[repeat(auto-fit,minmax(min(100%,360px),1fr))] items-center gap-12 px-6 py-26">
         <div>
-          <h2
-            className="font-kanit"
-            style={{
-              fontStyle: "italic",
-              fontWeight: 800,
-              fontSize: "clamp(38px,5vw,64px)",
-              lineHeight: 0.95,
-              margin: "0 0 24px",
-              textTransform: "uppercase",
-            }}
-          >
-            Find <span style={{ color: "#ee6a1f" }}>us</span>
+          <h2 className="mb-6 font-heading text-[clamp(38px,5vw,64px)] font-extrabold uppercase italic leading-[0.95]">
+            Find <span className="text-orange">us</span>
           </h2>
-          <div style={{ fontSize: 17, lineHeight: 1.6, color: "#cfcac3" }}>
+          <div className="text-[17px] leading-[1.6] text-subtle">
             <div>Tripoli, Lebanon</div>
-            <div style={{ marginTop: 12 }}>Open Mon–Sat, 8:30am – 9:00pm</div>
+            <div className="mt-3">Open Mon–Sat, 8:30am – 9:00pm</div>
           </div>
           <a
             href="https://www.google.com/maps/dir/?api=1&destination=34.4233446,35.8370708&destination_place_id=0x1521f749a16dc0f7:0x45b16d7b9cad902"
             target="_blank"
             rel="noopener"
-            className="font-kanit sa-directions"
-            style={{
-              display: "inline-block",
-              marginTop: 28,
-              fontWeight: 600,
-              fontSize: 15,
-              textTransform: "uppercase",
-              letterSpacing: "0.06em",
-              color: "#141414",
-              background: "#ee6a1f",
-              padding: "14px 26px",
-            }}
+            className="mt-7 inline-block bg-orange px-6.5 py-3.5 font-heading text-[15px] font-semibold uppercase tracking-[0.06em] text-ink hover:bg-[#ff8138]"
           >
             Get Directions
           </a>
         </div>
-        <div style={{ aspectRatio: "4/3", overflow: "hidden", border: "1px solid #262422" }}>
+        <div className="aspect-4/3 overflow-hidden border border-border-dark">
           <iframe
             src="https://maps.google.com/maps?q=34.4233446,35.8370708&z=16&output=embed"
-            style={{ width: "100%", height: "100%", border: 0 }}
+            className="h-full w-full border-0"
             loading="lazy"
             title="Supreme Academy location"
           />
