@@ -1,0 +1,86 @@
+@import "tailwindcss";
+
+:root {
+  --sa-bg: #f7f6f4;
+  --sa-ink: #141414;
+  --sa-orange: #ee6a1f;
+  --sa-orange-dark: #c4520f;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 96px;
+}
+
+body {
+  margin: 0;
+  background: var(--sa-bg);
+  color: var(--sa-ink);
+  font-family: var(--font-barlow), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  color: var(--sa-ink);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--sa-orange);
+}
+
+input,
+select {
+  font-family: inherit;
+}
+
+.font-kanit {
+  font-family: var(--font-kanit), sans-serif;
+}
+
+/* Header nav CTA */
+.sa-nav-cta:hover {
+  background: var(--sa-ink) !important;
+  color: #ffffff !important;
+}
+
+/* Dark hero buttons */
+.sa-hero-cta:hover {
+  background: #ffffff !important;
+  color: #121212 !important;
+}
+
+.sa-hero-outline:hover {
+  border-color: var(--sa-orange) !important;
+  color: var(--sa-orange) !important;
+}
+
+/* Program cards */
+.sa-card:hover {
+  border-color: var(--sa-orange) !important;
+}
+
+/* Trial form */
+.sa-input:focus {
+  border-color: var(--sa-orange) !important;
+  outline: none;
+}
+
+.sa-submit:hover {
+  background: #ffffff !important;
+  color: var(--sa-ink) !important;
+}
+
+/* Location */
+.sa-directions:hover {
+  background: #ff8138 !important;
+}
+
+/* WhatsApp floating button */
+.sa-whatsapp:hover {
+  background: #1ebe5a !important;
+}
