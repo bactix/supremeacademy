@@ -1,7 +1,7 @@
 export default function ShopFooter() {
   return (
-    <footer className="bg-darker text-muted">
-      <div className="mx-auto max-w-310 px-6 pb-10 pt-14 text-center text-[13px]">
+    <footer style={{ background: "#0c0c0c", color: "#a9a39c" }}>
+      <div style={{ maxWidth: 1240, margin: "0 auto", padding: "56px 24px 40px", textAlign: "center", fontSize: 13 }}>
         © 2026 Supreme Academy
       </div>
     </footer>

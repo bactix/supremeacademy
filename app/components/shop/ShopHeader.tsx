@@ -3,12 +3,38 @@ import Link from "next/link";
 
 export default function ShopHeader() {
   return (
-    <header className="sticky top-0 z-10 border-b border-border bg-white">
-      <div className="mx-auto flex max-w-310 flex-wrap items-center justify-between gap-6 px-6 py-2.5">
+    <header
+      style={{
+        position: "sticky",
+        top: 0,
+        zIndex: 10,
+        background: "#ffffff",
+        borderBottom: "1px solid #e7e4df",
+      }}
+    >
+      <div
+        style={{
+          maxWidth: 1240,
+          margin: "0 auto",
+          padding: "10px 24px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: 24,
+          flexWrap: "wrap",
+        }}
+      >
         <Link
           href="/"
           aria-label="Supreme Academy home"
-          className="relative block h-18.75 w-42.5 shrink-0 overflow-hidden"
+          style={{
+            display: "block",
+            width: 170,
+            height: 75,
+            overflow: "hidden",
+            position: "relative",
+            flexShrink: 0,
+          }}
         >
           <Image
             src="/assets/logo.png"
@@ -16,24 +42,37 @@ export default function ShopHeader() {
             width={222}
             height={222}
             priority
-            className="absolute -left-7.25 -top-15 h-55.5 w-55.5 max-w-none"
+            style={{ position: "absolute", width: 222, height: 222, left: -29, top: -60, maxWidth: "none" }}
           />
         </Link>
-        <nav className="flex flex-wrap items-center gap-7 font-heading text-[15px] font-semibold uppercase tracking-[0.04em]">
-          <Link href="/#programs" className="text-ink hover:text-orange">
-            Programs
-          </Link>
-          <Link href="/#schedule" className="text-ink hover:text-orange">
-            Schedule
-          </Link>
-          <Link href="/#instructors" className="text-ink hover:text-orange">
-            Team
-          </Link>
+        <nav
+          className="font-kanit"
+          style={{
+            display: "flex",
+            gap: 28,
+            flexWrap: "wrap",
+            alignItems: "center",
+            fontWeight: 600,
+            fontSize: 15,
+            letterSpacing: "0.04em",
+            textTransform: "uppercase",
+          }}
+        >
+          <Link href="/#programs">Programs</Link>
+          <Link href="/#schedule">Schedule</Link>
+          <Link href="/#instructors">Team</Link>
           <Link
             href="/#trial"
-            className="inline-block -skew-x-12 bg-orange px-4.5 py-2.5 text-white hover:bg-ink"
+            className="sa-nav-cta"
+            style={{
+              background: "#ee6a1f",
+              color: "#ffffff",
+              padding: "10px 18px",
+              transform: "skewX(-12deg)",
+              display: "inline-block",
+            }}
           >
-            <span className="inline-block skew-x-12">Free trial</span>
+            <span style={{ display: "inline-block", transform: "skewX(12deg)" }}>Free trial</span>
           </Link>
         </nav>
       </div>

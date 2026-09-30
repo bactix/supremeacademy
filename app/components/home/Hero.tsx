@@ -2,44 +2,118 @@ import Image from "next/image";
 
 export default function Hero() {
   return (
-    <section id="top" className="overflow-hidden bg-dark text-cream">
-      <div className="mx-auto grid max-w-310 grid-cols-[repeat(auto-fit,minmax(min(100%,440px),1fr))] items-center gap-14 px-6 pb-24 pt-22">
+    <section id="top" style={{ background: "#121212", color: "#f7f6f4", overflow: "hidden" }}>
+      <div
+        style={{
+          maxWidth: 1240,
+          margin: "0 auto",
+          padding: "88px 24px 96px",
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,440px),1fr))",
+          gap: 56,
+          alignItems: "center",
+        }}
+      >
         <div>
-          <div className="mb-5.5 font-heading text-sm font-semibold uppercase italic tracking-[0.28em] text-orange">
+          <div
+            className="font-kanit"
+            style={{
+              fontStyle: "italic",
+              fontWeight: 600,
+              color: "#ee6a1f",
+              letterSpacing: "0.28em",
+              textTransform: "uppercase",
+              fontSize: 14,
+              marginBottom: 22,
+            }}
+          >
             BJJ · Judo · Kickboxing
           </div>
-          <h1 className="mb-7 font-heading text-[clamp(52px,8vw,108px)] font-extrabold uppercase italic leading-[0.92] tracking-[-0.01em]">
+          <h1
+            className="font-kanit"
+            style={{
+              fontStyle: "italic",
+              fontWeight: 800,
+              fontSize: "clamp(52px,8vw,108px)",
+              lineHeight: 0.92,
+              margin: "0 0 28px",
+              letterSpacing: "-0.01em",
+              textTransform: "uppercase",
+            }}
+          >
             Train hard.
             <br />
-            <span className="text-orange">Rise</span> supreme.
+            <span style={{ color: "#ee6a1f" }}>Rise</span> supreme.
           </h1>
-          <p className="mb-9 max-w-120 text-[19px] leading-[1.55] text-subtle text-pretty">
+          <p
+            style={{
+              fontSize: 19,
+              lineHeight: 1.55,
+              color: "#cfcac3",
+              maxWidth: 480,
+              margin: "0 0 36px",
+              textWrap: "pretty",
+            }}
+          >
             Three disciplines under one roof. Structured classes for complete beginners through
             competitors, coached by people who still step on the mat every day.
           </p>
-          <div className="flex flex-wrap gap-4">
+          <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
             <a
               href="#trial"
-              className="inline-block -skew-x-12 bg-orange px-7.5 py-4 font-heading text-base font-semibold uppercase tracking-[0.06em] text-white hover:bg-white hover:text-dark"
+              className="font-kanit sa-hero-cta"
+              style={{
+                background: "#ee6a1f",
+                color: "#ffffff",
+                padding: "16px 30px",
+                fontWeight: 600,
+                fontSize: 16,
+                textTransform: "uppercase",
+                letterSpacing: "0.06em",
+                transform: "skewX(-12deg)",
+                display: "inline-block",
+              }}
             >
-              <span className="inline-block skew-x-12">Book your free class</span>
+              <span style={{ display: "inline-block", transform: "skewX(12deg)" }}>
+                Book your free class
+              </span>
             </a>
             <a
               href="#schedule"
-              className="inline-block -skew-x-12 border-2 border-border-neutral px-7 py-3.5 font-heading text-base font-semibold uppercase tracking-[0.06em] text-cream hover:border-orange hover:text-orange"
+              className="font-kanit sa-hero-outline"
+              style={{
+                border: "2px solid #4a4744",
+                color: "#f7f6f4",
+                padding: "14px 28px",
+                fontWeight: 600,
+                fontSize: 16,
+                textTransform: "uppercase",
+                letterSpacing: "0.06em",
+                transform: "skewX(-12deg)",
+                display: "inline-block",
+              }}
             >
-              <span className="inline-block skew-x-12">View timetable</span>
+              <span style={{ display: "inline-block", transform: "skewX(12deg)" }}>
+                View timetable
+              </span>
             </a>
           </div>
         </div>
-        <div className="relative aspect-4/5 max-h-155 [clip-path:polygon(14%_0,100%_0,86%_100%,0_100%)]">
+        <div
+          style={{
+            position: "relative",
+            aspectRatio: "4/5",
+            maxHeight: 620,
+            clipPath: "polygon(14% 0,100% 0,86% 100%,0 100%)",
+          }}
+        >
           <Image
             src="/assets/hero-fighter.png"
             alt="Fighter in Phantom rashguard"
             fill
             priority
             sizes="(max-width: 900px) 100vw, 600px"
-            className="object-cover"
+            style={{ objectFit: "cover" }}
           />
         </div>
       </div>

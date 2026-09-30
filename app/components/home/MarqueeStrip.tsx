@@ -1,7 +1,23 @@
 export default function MarqueeStrip() {
   return (
-    <div className="overflow-hidden bg-orange text-white">
-      <div className="mx-auto flex max-w-310 flex-wrap justify-between gap-5 px-6 py-4 font-heading text-lg font-semibold uppercase italic tracking-[0.12em]">
+    <div style={{ background: "#ee6a1f", color: "#ffffff", overflow: "hidden" }}>
+      <div
+        className="font-kanit"
+        style={{
+          maxWidth: 1240,
+          margin: "0 auto",
+          padding: "16px 24px",
+          display: "flex",
+          justifyContent: "space-between",
+          gap: 20,
+          flexWrap: "wrap",
+          fontStyle: "italic",
+          fontWeight: 600,
+          fontSize: 18,
+          textTransform: "uppercase",
+          letterSpacing: "0.12em",
+        }}
+      >
         <span>Strength</span>
         <span>·</span>
         <span>Discipline</span>

@@ -42,9 +42,6 @@ const FILTERS: { key: Tag | null; label: string }[] = [
 const PER_PAGE = 12;
 const WHATSAPP_NUMBER = "9613395854";
 
-const navBtnClasses =
-  "h-11 cursor-pointer border border-border-shop bg-transparent px-4 font-heading text-sm font-semibold uppercase tracking-[0.06em] text-ink";
-
 export default function ShopCatalog() {
   const [activeFilter, setActiveFilter] = useState<Tag | null>(null);
   const [cart, setCart] = useState<Record<string, number>>({});
@@ -84,25 +81,56 @@ export default function ShopCatalog() {
     setPage(0);
   };
 
+  const navBtnStyle = {
+    height: 44,
+    padding: "0 16px",
+    cursor: "pointer",
+    fontWeight: 600,
+    fontSize: 14,
+    textTransform: "uppercase",
+    letterSpacing: "0.06em",
+    border: "1px solid #d8d4cd",
+    background: "transparent",
+    color: "#141414",
+  } as const;
+
   return (
     <>
-      <section className="mx-auto max-w-310 px-6 py-26">
-        <h1 className="mb-7 font-heading text-[clamp(38px,5vw,64px)] font-extrabold uppercase italic leading-[0.95]">
-          Academy <span className="text-orange">shop</span>
+      <section style={{ maxWidth: 1240, margin: "0 auto", padding: "104px 24px" }}>
+        <h1
+          className="font-kanit"
+          style={{
+            fontStyle: "italic",
+            fontWeight: 800,
+            fontSize: "clamp(38px,5vw,64px)",
+            lineHeight: 0.95,
+            margin: "0 0 28px",
+            textTransform: "uppercase",
+          }}
+        >
+          Academy <span style={{ color: "#ee6a1f" }}>shop</span>
         </h1>
 
-        <div className="-mx-6 mb-10 flex scrollbar-none gap-2.5 overflow-x-auto px-6 sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0">
+        <div className="sa-filter-row" style={{ marginBottom: 40 }}>
           {FILTERS.map((f) => {
             const isActive = activeFilter === f.key;
             return (
               <button
                 key={f.label}
                 onClick={() => selectFilter(f.key)}
-                className={`shrink-0 cursor-pointer border px-4 py-2.25 font-heading text-sm font-semibold uppercase tracking-[0.06em] ${
-                  isActive
-                    ? "border-orange bg-orange text-white"
-                    : "border-border-shop bg-transparent text-ink"
-                }`}
+                className="font-kanit"
+                style={{
+                  fontWeight: 600,
+                  fontSize: 14,
+                  textTransform: "uppercase",
+                  letterSpacing: "0.06em",
+                  padding: "9px 16px",
+                  cursor: "pointer",
+                  flexShrink: 0,
+                  border: `1px solid ${isActive ? "#ee6a1f" : "#d8d4cd"}`,
+                  background: isActive ? "#ee6a1f" : "transparent",
+                  color: isActive ? "#ffffff" : "#141414",
+                }}
               >
                 {f.label}
               </button>
@@ -110,33 +138,76 @@ export default function ShopCatalog() {
           })}
         </div>
 
-        <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,220px),1fr))] gap-6">
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,220px),1fr))",
+            gap: 24,
+          }}
+        >
           {pageItems.map((it) => (
             <div key={it.name}>
-              <div className="mb-4 flex aspect-square items-center justify-center bg-[repeating-linear-gradient(135deg,#efece8_0_12px,#e6e2dd_12px_24px)]">
-                <span className="px-[12%] text-center font-[ui-monospace,Menlo,monospace] text-xs text-faint">
+              <div
+                style={{
+                  aspectRatio: "1",
+                  background: "repeating-linear-gradient(135deg,#efece8 0 12px,#e6e2dd 12px 24px)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  marginBottom: 16,
+                }}
+              >
+                <span style={{ fontFamily: "ui-monospace, Menlo, monospace", fontSize: 12, color: "#7a746d", textAlign: "center", padding: "0 12%" }}>
                   {it.photo}
                 </span>
               </div>
-              <div className="font-heading text-xs font-semibold uppercase tracking-[0.06em] text-orange">
+              <div
+                className="font-kanit"
+                style={{ fontWeight: 600, fontSize: 12, color: "#ee6a1f", textTransform: "uppercase", letterSpacing: "0.06em" }}
+              >
                 {it.category}
               </div>
-              <div className="mt-0.5 font-heading text-xl font-bold uppercase italic">{it.name}</div>
-              <div className="mt-1 text-[15px] text-faint">${it.price}</div>
-              <div className="mt-3.5 flex items-center gap-2">
+              <div
+                className="font-kanit"
+                style={{ fontStyle: "italic", fontWeight: 700, fontSize: 20, textTransform: "uppercase", marginTop: 2 }}
+              >
+                {it.name}
+              </div>
+              <div style={{ fontSize: 15, color: "#7a746d", marginTop: 4 }}>${it.price}</div>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 14 }}>
                 <button
                   onClick={() => dec(it.name)}
                   aria-label="Remove one"
-                  className="h-11 w-11 cursor-pointer border border-border-shop bg-transparent text-xl text-ink"
+                  style={{
+                    width: 44,
+                    height: 44,
+                    border: "1px solid #d8d4cd",
+                    background: "transparent",
+                    fontSize: 20,
+                    cursor: "pointer",
+                    color: "#141414",
+                  }}
                 >
                   −
                 </button>
-                <div className="min-w-7 text-center font-heading text-lg font-semibold">
+                <div className="font-kanit" style={{ minWidth: 28, textAlign: "center", fontWeight: 600, fontSize: 18 }}>
                   {cart[it.name] ?? 0}
                 </div>
                 <button
                   onClick={() => inc(it.name)}
-                  className="h-11 flex-1 cursor-pointer border-none bg-ink font-heading text-sm font-semibold uppercase tracking-[0.06em] text-white hover:bg-orange"
+                  className="font-kanit sa-shop-add"
+                  style={{
+                    flex: 1,
+                    height: 44,
+                    border: "none",
+                    background: "#141414",
+                    color: "#ffffff",
+                    fontWeight: 600,
+                    fontSize: 14,
+                    textTransform: "uppercase",
+                    letterSpacing: "0.06em",
+                    cursor: "pointer",
+                  }}
                 >
                   Add to order
                 </button>
@@ -146,26 +217,37 @@ export default function ShopCatalog() {
         </div>
 
         {pageCount > 1 && (
-          <div className="mt-14 flex flex-wrap items-center justify-center gap-2">
-            <button onClick={() => setPage((p) => Math.max(0, p - 1))} className={navBtnClasses}>
+          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 8, marginTop: 56, flexWrap: "wrap" }}>
+            <button
+              onClick={() => setPage((p) => Math.max(0, p - 1))}
+              className="font-kanit"
+              style={navBtnStyle}
+            >
               Prev
             </button>
             {Array.from({ length: pageCount }, (_, i) => (
               <button
                 key={i}
                 onClick={() => setPage(i)}
-                className={`h-11 w-11 cursor-pointer border font-heading text-base font-semibold ${
-                  i === currentPage
-                    ? "border-orange bg-orange text-white"
-                    : "border-border-shop bg-transparent text-ink"
-                }`}
+                className="font-kanit"
+                style={{
+                  width: 44,
+                  height: 44,
+                  cursor: "pointer",
+                  fontWeight: 600,
+                  fontSize: 16,
+                  border: `1px solid ${i === currentPage ? "#ee6a1f" : "#d8d4cd"}`,
+                  background: i === currentPage ? "#ee6a1f" : "transparent",
+                  color: i === currentPage ? "#ffffff" : "#141414",
+                }}
               >
                 {i + 1}
               </button>
             ))}
             <button
               onClick={() => setPage((p) => Math.min(pageCount - 1, p + 1))}
-              className={navBtnClasses}
+              className="font-kanit"
+              style={navBtnStyle}
             >
               Next
             </button>
@@ -174,24 +256,59 @@ export default function ShopCatalog() {
       </section>
 
       {lines.length > 0 && (
-        <div className="fixed bottom-6 left-1/2 z-20 flex w-[min(92vw,560px)] -translate-x-1/2 flex-wrap items-center justify-between gap-3 bg-ink py-3.5 pl-5.5 pr-3.5 text-cream shadow-[0_10px_30px_rgba(0,0,0,0.3)]">
+        <div
+          style={{
+            position: "fixed",
+            left: "50%",
+            bottom: 24,
+            transform: "translateX(-50%)",
+            zIndex: 20,
+            width: "min(92vw, 560px)",
+            background: "#141414",
+            color: "#f7f6f4",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            flexWrap: "wrap",
+            gap: 12,
+            padding: "14px 14px 14px 22px",
+            boxShadow: "0 10px 30px rgba(0,0,0,0.3)",
+          }}
+        >
           <div>
-            <div className="font-heading text-[13px] font-semibold uppercase tracking-[0.06em] text-muted">
+            <div
+              className="font-kanit"
+              style={{ fontWeight: 600, fontSize: 13, textTransform: "uppercase", letterSpacing: "0.06em", color: "#a9a39c" }}
+            >
               {orderCount} item(s)
             </div>
-            <div className="font-heading text-2xl font-extrabold italic">${total}</div>
+            <div className="font-kanit" style={{ fontStyle: "italic", fontWeight: 800, fontSize: 24 }}>
+              ${total}
+            </div>
           </div>
           <a
             href={orderLink}
             target="_blank"
             rel="noopener"
-            className="flex items-center gap-2 bg-whatsapp px-5 py-3.25 font-heading text-[15px] font-semibold uppercase tracking-[0.04em] text-whatsapp-dark hover:bg-[#1ebe5a]"
+            className="font-kanit sa-whatsapp"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+              background: "#25d366",
+              color: "#0b2e17",
+              padding: "13px 20px",
+              fontWeight: 600,
+              fontSize: 15,
+              textTransform: "uppercase",
+              letterSpacing: "0.04em",
+            }}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/whatsapp.svg"
               alt=""
-              className="block h-5 w-5"
+              style={{ width: 20, height: 20, display: "block" }}
             />
             <span>Send order</span>
           </a>

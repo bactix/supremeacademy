@@ -1,27 +1,10 @@
 @import "tailwindcss";
 
-@theme {
-  --font-heading: var(--font-kanit), sans-serif;
-  --font-body: var(--font-barlow), system-ui, sans-serif;
-
-  --color-cream: #f7f6f4;
-  --color-ink: #141414;
-  --color-orange: #ee6a1f;
-  --color-orange-dark: #c4520f;
-  --color-dark: #121212;
-  --color-darker: #0c0c0c;
-  --color-muted: #a9a39c;
-  --color-subtle: #cfcac3;
-  --color-faint: #7a746d;
-  --color-body: #55504a;
-  --color-border: #e7e4df;
-  --color-border-dark: #262422;
-  --color-border-neutral: #4a4744;
-  --color-border-shop: #d8d4cd;
-  --color-input: #1f1e1d;
-  --color-input-border: #3a3734;
-  --color-whatsapp: #25d366;
-  --color-whatsapp-dark: #0b2e17;
+:root {
+  --sa-bg: #f7f6f4;
+  --sa-ink: #141414;
+  --sa-orange: #ee6a1f;
+  --sa-orange-dark: #c4520f;
 }
 
 html {
@@ -31,10 +14,168 @@ html {
 
 body {
   margin: 0;
-  font-family: var(--font-body);
+  background: var(--sa-bg);
+  color: var(--sa-ink);
+  font-family: var(--font-barlow), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  color: var(--sa-ink);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--sa-orange);
 }
 
 input,
 select {
   font-family: inherit;
+}
+
+.font-kanit {
+  font-family: var(--font-kanit), sans-serif;
+}
+
+/* Header nav CTA */
+.sa-nav-cta:hover {
+  background: var(--sa-ink) !important;
+  color: #ffffff !important;
+}
+
+/* Dark hero buttons */
+.sa-hero-cta:hover {
+  background: #ffffff !important;
+  color: #121212 !important;
+}
+
+.sa-hero-outline:hover {
+  border-color: var(--sa-orange) !important;
+  color: var(--sa-orange) !important;
+}
+
+/* Program cards */
+.sa-card:hover {
+  border-color: var(--sa-orange) !important;
+}
+
+/* Trial form */
+.sa-input:focus {
+  border-color: var(--sa-orange) !important;
+  outline: none;
+}
+
+.sa-submit:hover {
+  background: #ffffff !important;
+  color: var(--sa-ink) !important;
+}
+
+/* Location */
+.sa-directions:hover {
+  background: #ff8138 !important;
+}
+
+/* WhatsApp floating button */
+.sa-whatsapp:hover {
+  background: #1ebe5a !important;
+}
+
+/* Schedule: highlight an empty slot on hover */
+.sa-cell-empty {
+  cursor: default;
+}
+
+.sa-cell-empty:hover {
+  background: rgba(238, 106, 31, 0.18) !important;
+}
+
+/* Shop: add-to-order button */
+.sa-shop-add:hover {
+  background: var(--sa-orange) !important;
+}
+
+/* Shop: filter row — pills that scroll horizontally on small screens */
+.sa-filter-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 640px) {
+  .sa-filter-row {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    margin-left: -24px;
+    margin-right: -24px;
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  .sa-filter-row::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Schedule: toolbar — title/actions/filters reflow so actions sit under the
+   filter tags on mobile instead of beside the title */
+.sa-schedule-toolbar {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-areas:
+    "title actions"
+    "hint hint"
+    "filters filters";
+  align-items: end;
+  column-gap: 16px;
+  row-gap: 16px;
+  margin-bottom: 28px;
+}
+
+@media (max-width: 640px) {
+  .sa-schedule-toolbar {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "title"
+      "hint"
+      "filters"
+      "actions";
+    align-items: start;
+  }
+}
+
+.sa-schedule-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 640px) {
+  .sa-schedule-actions {
+    border-top: 1px solid #262422;
+    padding-top: 16px;
+  }
+}
+
+/* Schedule: timetable scrolls horizontally instead of squeezing on mobile */
+.sa-timetable-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 4px;
+}
+
+.sa-timetable-hint {
+  display: none;
+}
+
+@media (max-width: 800px) {
+  .sa-timetable-hint {
+    display: block;
+  }
 }

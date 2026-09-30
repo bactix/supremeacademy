@@ -166,7 +166,11 @@ function buildGrid(activeFilter: FilterKey | "empty" | null) {
         : !!found && (!activeFilter || FILTERS[activeFilter](found));
       const dim = emptyMode ? !!found : !!found && !!activeFilter && !match;
 
-      const dynamicStyle: CSSProperties = {
+      const boxStyle: CSSProperties = {
+        border: "1px solid #262422",
+        borderTop: "none",
+        padding: "6px 4px",
+        minHeight: 56,
         background: found
           ? found[3] === "Only Women"
             ? "rgba(238,106,31,0.08)"
@@ -178,16 +182,23 @@ function buildGrid(activeFilter: FilterKey | "empty" | null) {
             : "transparent",
         boxShadow: match && activeFilter ? "inset 0 0 0 2px #ee6a1f" : "none",
         opacity: dim ? 0.28 : 1,
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        color: closed ? "#5c5852" : "#f7f6f4",
+        fontStyle: closed ? "italic" : "normal",
+        fontSize: closed ? 12 : undefined,
+        textAlign: closed ? "center" : undefined,
+        transition: "background 0.15s, opacity 0.15s, box-shadow 0.15s",
       };
 
       return {
         hasClass: !!found,
         isEmpty,
-        closed,
         name: found ? found[1] : closed ? "Closed" : "",
         coach: found ? found[2] : "",
         tag: found ? found[3] : "",
-        dynamicStyle,
+        boxStyle,
       };
     }),
   }));
@@ -313,9 +324,6 @@ function slotKey(dayIndex: number, time: string) {
   return `${dayIndex}:${time}`;
 }
 
-const cellBaseClasses =
-  "flex min-h-14 flex-col justify-center border border-t-0 border-border-dark px-1 py-1.5 transition-[background,opacity,box-shadow] duration-150";
-
 function RowCells({
   time,
   cells,
@@ -329,46 +337,79 @@ function RowCells({
 }) {
   return (
     <>
-      <div className="flex items-center border-t border-border-dark px-0.5 py-1.5 font-heading text-[11px] font-semibold text-muted">
+      <div
+        className="font-kanit"
+        style={{
+          fontWeight: 600,
+          fontSize: 11,
+          color: "#a9a39c",
+          padding: "6px 2px",
+          borderTop: "1px solid #262422",
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
         {time}
       </div>
       {cells.map((cell, i) => {
         const key = slotKey(i, time);
         const isSelected = cell.isEmpty && selected.has(key);
         const style: CSSProperties = isSelected
-          ? { boxShadow: "inset 0 0 0 2px #141414" }
-          : cell.dynamicStyle;
+          ? {
+              ...cell.boxStyle,
+              background: "#ee6a1f",
+              color: "#141414",
+              boxShadow: "inset 0 0 0 2px #141414",
+            }
+          : cell.boxStyle;
 
         return (
           <div
             key={i}
-            className={`${cellBaseClasses} ${cell.isEmpty ? "cursor-pointer" : ""} ${
-              cell.isEmpty && !isSelected ? "hover:bg-orange/18" : ""
-            } ${
-              isSelected
-                ? "bg-orange text-ink"
-                : cell.closed
-                  ? "text-center text-xs italic text-[#5c5852]"
-                  : "text-cream"
-            }`}
-            style={style}
+            className={cell.isEmpty && !isSelected ? "sa-cell-empty" : undefined}
+            style={{ ...style, cursor: cell.isEmpty ? "pointer" : style.cursor }}
             onClick={cell.isEmpty ? () => onToggle(key) : undefined}
             role={cell.isEmpty ? "button" : undefined}
             aria-pressed={cell.isEmpty ? isSelected : undefined}
           >
             {cell.hasClass && (
               <>
-                <div className="font-heading text-[11px] font-semibold uppercase italic leading-[1.15] break-words">
+                <div
+                  className="font-kanit"
+                  style={{
+                    fontStyle: "italic",
+                    fontWeight: 600,
+                    fontSize: 11,
+                    textTransform: "uppercase",
+                    lineHeight: 1.15,
+                    wordBreak: "break-word",
+                  }}
+                >
                   {cell.name}
                 </div>
-                <div className="mt-0.5 text-[9px] break-words text-muted">{cell.coach}</div>
-                <div className="mt-0.5 text-[8px] uppercase tracking-[0.04em] text-orange">
+                <div style={{ fontSize: 9, color: "#a9a39c", marginTop: 2, wordBreak: "break-word" }}>
+                  {cell.coach}
+                </div>
+                <div
+                  style={{
+                    fontSize: 8,
+                    color: "#ee6a1f",
+                    textTransform: "uppercase",
+                    letterSpacing: "0.04em",
+                    marginTop: 2,
+                  }}
+                >
                   {cell.tag}
                 </div>
               </>
             )}
             {isSelected && (
-              <div className="text-center font-heading text-[11px] font-bold">✓ Selected</div>
+              <div
+                className="font-kanit"
+                style={{ fontWeight: 700, fontSize: 11, textAlign: "center" }}
+              >
+                ✓ Selected
+              </div>
             )}
           </div>
         );
@@ -415,22 +456,43 @@ export default function ScheduleTimetable() {
   };
 
   return (
-    <section id="schedule" className="bg-dark text-cream">
-      <div className="mx-auto w-[90%] max-w-[90%] py-24">
-        <div className="mb-7 grid items-start gap-4 [grid-template-areas:'title'_'hint'_'filters'_'actions'] sm:grid-cols-[1fr_auto] sm:items-end sm:[grid-template-areas:'title_actions'_'hint_hint'_'filters_filters']">
-          <h2 className="[grid-area:title] font-heading text-[clamp(38px,5vw,64px)] font-extrabold uppercase italic leading-[0.95]">
-            Weekly <span className="text-orange">timetable</span>
+    <section id="schedule" style={{ background: "#121212", color: "#f7f6f4" }}>
+      <div style={{ width: "90%", maxWidth: "90%", margin: "0 auto", padding: "96px 0" }}>
+        <div className="sa-schedule-toolbar">
+          <h2
+            className="font-kanit"
+            style={{
+              gridArea: "title",
+              fontStyle: "italic",
+              fontWeight: 800,
+              fontSize: "clamp(38px,5vw,64px)",
+              lineHeight: 0.95,
+              margin: 0,
+              textTransform: "uppercase",
+            }}
+          >
+            Weekly <span style={{ color: "#ee6a1f" }}>timetable</span>
           </h2>
 
-          <p className="[grid-area:hint] text-[13px] text-faint">
+          <p style={{ gridArea: "hint", fontSize: 13, color: "#7a746d", margin: 0 }}>
             Tap an open slot to select it, then reserve — we&apos;ll confirm over WhatsApp.
           </p>
 
-          <div className="[grid-area:filters]">
-            <div className="mb-2.5 font-heading text-xs font-semibold uppercase tracking-[0.08em] text-faint">
+          <div style={{ gridArea: "filters" }}>
+            <div
+              className="font-kanit"
+              style={{
+                fontWeight: 600,
+                fontSize: 12,
+                color: "#7a746d",
+                textTransform: "uppercase",
+                letterSpacing: "0.08em",
+                marginBottom: 10,
+              }}
+            >
               Filter classes
             </div>
-            <div className="flex flex-wrap gap-2.5">
+            <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
               {FILTER_BUTTONS.map((fb) => {
                 const isActive = activeFilter === fb.key;
                 return (
@@ -439,11 +501,18 @@ export default function ScheduleTimetable() {
                     onClick={() =>
                       setActiveFilter((prev) => (prev === fb.key ? null : fb.key))
                     }
-                    className={`cursor-pointer border px-4 py-2.25 font-heading text-sm font-semibold uppercase tracking-[0.06em] ${
-                      isActive
-                        ? "border-orange bg-orange text-white"
-                        : "border-border-neutral bg-transparent text-subtle"
-                    }`}
+                    className="font-kanit"
+                    style={{
+                      fontWeight: 600,
+                      fontSize: 14,
+                      textTransform: "uppercase",
+                      letterSpacing: "0.06em",
+                      padding: "9px 16px",
+                      cursor: "pointer",
+                      border: `1px solid ${isActive ? "#ee6a1f" : "#4a4744"}`,
+                      background: isActive ? "#ee6a1f" : "transparent",
+                      color: isActive ? "#ffffff" : "#cfcac3",
+                    }}
                   >
                     {fb.label}
                   </button>
@@ -452,33 +521,75 @@ export default function ScheduleTimetable() {
             </div>
           </div>
 
-          <div className="flex flex-wrap gap-2.5 border-t border-border-dark pt-4 [grid-area:actions] sm:border-t-0 sm:pt-0">
+          <div className="sa-schedule-actions" style={{ gridArea: "actions" }}>
             {selectedSlots.length > 0 && (
               <button
                 onClick={reserveSlots}
-                className="cursor-pointer border border-orange bg-orange px-4.5 py-2.5 font-heading text-sm font-semibold uppercase tracking-[0.06em] text-white shadow-[0_0_0_3px_rgba(238,106,31,0.25)]"
+                className="font-kanit"
+                style={{
+                  fontWeight: 600,
+                  fontSize: 14,
+                  textTransform: "uppercase",
+                  letterSpacing: "0.06em",
+                  padding: "10px 18px",
+                  cursor: "pointer",
+                  border: "1px solid #ee6a1f",
+                  background: "#ee6a1f",
+                  color: "#ffffff",
+                  boxShadow: "0 0 0 3px rgba(238,106,31,0.25)",
+                }}
               >
                 Reserve {selectedSlots.length} slot{selectedSlots.length > 1 ? "s" : ""}
               </button>
             )}
             <button
               onClick={downloadSchedule}
-              className="cursor-pointer border border-border-neutral bg-transparent px-4.5 py-2.5 font-heading text-sm font-semibold uppercase tracking-[0.06em] text-subtle"
+              className="font-kanit"
+              style={{
+                fontWeight: 600,
+                fontSize: 14,
+                textTransform: "uppercase",
+                letterSpacing: "0.06em",
+                padding: "10px 18px",
+                cursor: "pointer",
+                border: "1px solid #4a4744",
+                background: "transparent",
+                color: "#cfcac3",
+              }}
             >
               Download
             </button>
           </div>
         </div>
 
-        <p className="mb-3 block text-xs text-faint md:hidden">Swipe to see the full week →</p>
+        <p className="sa-timetable-hint" style={{ fontSize: 12, color: "#7a746d", margin: "0 0 12px" }}>
+          Swipe to see the full week →
+        </p>
 
-        <div className="overflow-x-auto pb-1 [-webkit-overflow-scrolling:touch]">
-          <div className="grid min-w-175 grid-cols-[64px_repeat(7,minmax(0,1fr))]">
+        <div className="sa-timetable-scroll">
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "64px repeat(7,minmax(0,1fr))",
+              minWidth: 700,
+            }}
+          >
             <div />
             {DAY_NAMES.map((dn) => (
               <div
                 key={dn}
-                className="overflow-hidden border-b-2 border-orange px-0.5 py-2 text-center font-heading text-[13px] font-bold uppercase italic text-orange"
+                className="font-kanit"
+                style={{
+                  fontStyle: "italic",
+                  fontWeight: 700,
+                  fontSize: 13,
+                  textTransform: "uppercase",
+                  textAlign: "center",
+                  padding: "8px 2px",
+                  color: "#ee6a1f",
+                  borderBottom: "2px solid #ee6a1f",
+                  overflow: "hidden",
+                }}
               >
                 {dn}
               </div>
