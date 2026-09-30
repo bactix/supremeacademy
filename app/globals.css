@@ -84,3 +84,8 @@ select {
 .sa-whatsapp:hover {
   background: #1ebe5a !important;
 }
+
+/* Shop: add-to-order button */
+.sa-shop-add:hover {
+  background: var(--sa-orange) !important;
+}
