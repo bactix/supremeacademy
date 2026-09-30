@@ -1,121 +1,15 @@
 "use client";
 
 import { useMemo, useState, type CSSProperties } from "react";
+import {
+  DEFAULT_SCHED,
+  TIMES,
+  DAY_NAMES,
+  type ClassSlot,
+  type DaySchedule,
+} from "../../lib/schedule-data";
 
-type ClassSlot = [time: string, name: string, coach: string, tag: string];
-type DaySchedule = [day: string, classes: ClassSlot[]];
-
-const SCHED: DaySchedule[] = [
-  [
-    "Mon",
-    [
-      ["8:30–9:30", "Extreme Fitness", "Coach Rouba", "Only Women"],
-      ["10:00–11:00", "Boxing", "Coach Amar", "All levels"],
-      ["11:00–12:00", "Cardio", "Coach Mohamad", "All levels"],
-      ["12:00–1:00", "Bungee Jumping", "Coach Dania", "Only Women"],
-      ["3:00–4:00", "Zumba", "Coach Danya", "Only Women"],
-      ["4:00–5:00", "U Bound", "", "Only Women"],
-      ["5:00–6:00", "Extreme Fitness", "Coach Rouba", "Only Women"],
-      ["6:00–7:00", "Boxing / Muay Thai", "Coach Alaa Eldin", "All levels"],
-      ["7:00–8:00", "Belly Dance", "Coach Amar", "Only Women"],
-      ["8:00–9:00", "Private Session", "", "Private"],
-    ],
-  ],
-  [
-    "Tue",
-    [
-      ["10:00–11:00", "U Bound", "", "Only Women"],
-      ["11:00–12:00", "Pilates", "Coach Danya", "Only Women"],
-      ["3:00–4:00", "U Bound", "", "Only Women"],
-      ["4:00–5:00", "Pilates", "Coach Danya", "Only Women"],
-      ["5:00–6:00", "Bungee Jumping", "Coach Dodji", "Only Women"],
-      ["6:00–7:00", "Judo", "Coach Hussein", "All levels"],
-      ["7:00–8:00", "BJJ – No Gi", "Coach Hussein", "All levels"],
-      ["8:00–9:00", "Kickboxing", "Coach Rami", "All levels"],
-    ],
-  ],
-  [
-    "Wed",
-    [
-      ["8:30–9:30", "Extreme Fitness", "Coach Rouba", "Only Women"],
-      ["10:00–11:00", "MMA", "Coach Ammar", "All levels"],
-      ["11:00–12:00", "Cardio", "Coach Mohamad", "All levels"],
-      ["12:00–1:00", "Bungee Jumping", "Coach Dania", "Only Women"],
-      ["4:00–5:00", "MMA", "Coach Ammar", "All levels"],
-      ["5:00–6:00", "Extreme Fitness", "Coach Rouba", "Only Women"],
-      ["6:00–7:00", "Boxing / Muay Thai", "Coach Alaa Eldin", "All levels"],
-      ["7:00–8:00", "Kickboxing", "Coach Rami", "All levels"],
-      ["8:00–9:00", "Private Session", "", "Private"],
-    ],
-  ],
-  [
-    "Thu",
-    [
-      ["10:00–11:00", "U Bound", "", "Only Women"],
-      ["11:00–12:00", "Pilates", "Coach Danya", "Only Women"],
-      ["4:00–5:00", "Gymnastics", "Coach Rana", "All levels"],
-      ["5:00–6:00", "Bungee Jumping", "Coach Dodji", "Only Women"],
-      ["6:00–7:00", "Boxing", "Coach Shaymaa", "Only Women"],
-      ["7:00–8:00", "BJJ – Gi", "Coach Hussein", "All levels"],
-      ["8:00–9:00", "Kickboxing", "Coach Rami", "All levels"],
-    ],
-  ],
-  [
-    "Fri",
-    [
-      ["8:30–9:30", "Extreme Fitness", "Coach Rouba", "Only Women"],
-      ["10:00–11:00", "Boxing", "Coach Amar", "All levels"],
-      ["11:00–12:00", "Pilates", "Coach Danya", "Only Women"],
-      ["12:00–1:00", "Zumba", "Coach Danya", "Only Women"],
-      ["4:00–5:00", "MMA", "Coach Ammar", "All levels"],
-      ["5:00–6:00", "Extreme Fitness", "Coach Rouba", "Only Women"],
-      ["6:00–7:00", "Judo", "Coach Hussein", "All levels"],
-      ["7:00–8:00", "Kickboxing", "Coach Rami", "All levels"],
-      ["8:00–9:00", "Private Session", "", "Private"],
-    ],
-  ],
-  [
-    "Sat",
-    [
-      ["10:00–11:00", "Pilates", "Coach Danya", "All levels"],
-      ["11:00–12:00", "Cardio", "", "All levels"],
-      ["12:00–1:00", "MMA", "Coach Ammar", "All levels"],
-      ["2:00–3:00", "Zumba", "Coach Danya", "Only Women"],
-      ["3:00–4:00", "Boxing", "Coach Shaymaa", "All levels"],
-      ["4:00–5:00", "Gymnastics", "Coach Rana", "All levels"],
-      ["5:00–6:00", "Boxing / Muay Thai", "Coach Alaa Eldin", "All levels"],
-      ["6:00–7:00", "Judo", "Coach Hussein", "All levels"],
-      ["7:00–8:00", "Belly Dance", "Coach Amar", "Only Women"],
-      ["8:00–9:00", "Private Session", "", "Private"],
-    ],
-  ],
-  ["Sun", []],
-];
-
-const TIMES = [
-  "8:30–9:30",
-  "10:00–11:00",
-  "11:00–12:00",
-  "12:00–1:00",
-  "1:00–2:00",
-  "2:00–3:00",
-  "3:00–4:00",
-  "4:00–5:00",
-  "5:00–6:00",
-  "6:00–7:00",
-  "7:00–8:00",
-  "8:00–9:00",
-];
-
-const DAY_NAMES = [
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-  "Sunday",
-];
+export type { ClassSlot, DaySchedule };
 
 const GRAPPLING = ["BJJ", "Judo"];
 const isGrappling = (name: string) => GRAPPLING.some((g) => name.includes(g));
@@ -153,10 +47,10 @@ const FILTER_BUTTONS: { key: FilterKey | "empty"; label: string }[] = [
   { key: "empty", label: "Empty slots" },
 ];
 
-function buildGrid(activeFilter: FilterKey | "empty" | null) {
+function buildGrid(sched: DaySchedule[], activeFilter: FilterKey | "empty" | null) {
   return TIMES.map((time) => ({
     time,
-    cells: SCHED.map(([, list]) => {
+    cells: sched.map(([, list]) => {
       const found = list.find(([t]) => t === time);
       const closed = list.length === 0 && time === "8:30–9:30";
       const emptyMode = activeFilter === "empty";
@@ -195,6 +89,7 @@ function buildGrid(activeFilter: FilterKey | "empty" | null) {
       return {
         hasClass: !!found,
         isEmpty,
+        closed,
         name: found ? found[1] : closed ? "Closed" : "",
         coach: found ? found[2] : "",
         tag: found ? found[3] : "",
@@ -212,7 +107,7 @@ function getFontFamily(varName: string, fallback: string) {
   return value || fallback;
 }
 
-async function downloadSchedule() {
+async function downloadSchedule(sched: DaySchedule[]) {
   const kanit = getFontFamily("--font-kanit", "Kanit, sans-serif");
   const barlow = getFontFamily("--font-barlow", "Barlow, sans-serif");
   try {
@@ -229,7 +124,7 @@ async function downloadSchedule() {
   const headH = 48;
   const rowH = 74;
   const titleH = 80;
-  const W = pad * 2 + timeW + colW * SCHED.length;
+  const W = pad * 2 + timeW + colW * sched.length;
   const H = pad * 2 + titleH + headH + rowH * TIMES.length;
 
   const c = document.createElement("canvas");
@@ -259,14 +154,14 @@ async function downloadSchedule() {
     "SUNDAY",
   ];
   x.textAlign = "center";
-  SCHED.forEach(([day], i) => {
+  sched.forEach(([day], i) => {
     const cx = pad + timeW + colW * i;
     x.font = `italic 700 18px ${kanit}`;
     x.fillStyle = "#ee6a1f";
     x.fillText(days[i] || day.toUpperCase(), cx + colW / 2, top + 30);
   });
   x.fillStyle = "#ee6a1f";
-  x.fillRect(pad + timeW, top + headH - 2, colW * SCHED.length, 2);
+  x.fillRect(pad + timeW, top + headH - 2, colW * sched.length, 2);
   x.textAlign = "left";
 
   const clip = (t: string, max: number) => {
@@ -287,7 +182,7 @@ async function downloadSchedule() {
     x.fillStyle = "#a9a39c";
     x.fillText(time, pad + 4, y + rowH / 2 + 5);
 
-    SCHED.forEach(([, list], i) => {
+    sched.forEach(([, list], i) => {
       const cx = pad + timeW + colW * i;
       x.strokeRect(cx + 0.5, y + 0.5, colW, rowH);
       const f = list.find(([t]) => t === time);
@@ -372,6 +267,14 @@ function RowCells({
             role={cell.isEmpty ? "button" : undefined}
             aria-pressed={cell.isEmpty ? isSelected : undefined}
           >
+            {cell.closed && (
+              <div
+                className="font-kanit"
+                style={{ fontStyle: "italic", fontSize: 12, textAlign: "center" }}
+              >
+                {cell.name}
+              </div>
+            )}
             {cell.hasClass && (
               <>
                 <div
@@ -420,12 +323,16 @@ function RowCells({
 
 const WHATSAPP_NUMBER = "9613395854";
 
-export default function ScheduleTimetable() {
+export default function ScheduleTimetable({
+  sched = DEFAULT_SCHED,
+}: {
+  sched?: DaySchedule[];
+}) {
   const [activeFilter, setActiveFilter] = useState<FilterKey | "empty" | null>(
     null,
   );
   const [selected, setSelected] = useState<Set<string>>(new Set());
-  const grid = useMemo(() => buildGrid(activeFilter), [activeFilter]);
+  const grid = useMemo(() => buildGrid(sched, activeFilter), [sched, activeFilter]);
 
   const toggleSlot = (key: string) => {
     setSelected((prev) => {
@@ -475,7 +382,7 @@ export default function ScheduleTimetable() {
           </h2>
 
           <p style={{ gridArea: "hint", fontSize: 13, color: "#7a746d", margin: 0 }}>
-            Tap an open slot to select it, then reserve — we&apos;ll confirm over WhatsApp.
+            Tap an open slot to select it, then reserve. We&apos;ll confirm over WhatsApp.
           </p>
 
           <div style={{ gridArea: "filters" }}>
@@ -543,7 +450,7 @@ export default function ScheduleTimetable() {
               </button>
             )}
             <button
-              onClick={downloadSchedule}
+              onClick={() => downloadSchedule(sched)}
               className="font-kanit"
               style={{
                 fontWeight: 600,

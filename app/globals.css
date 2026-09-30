@@ -99,7 +99,7 @@ select {
   background: var(--sa-orange) !important;
 }
 
-/* Shop: filter row — pills that scroll horizontally on small screens */
+/* Shop: filter row - pills that scroll horizontally on small screens */
 .sa-filter-row {
   display: flex;
   gap: 10px;
@@ -123,7 +123,7 @@ select {
   }
 }
 
-/* Schedule: toolbar — title/actions/filters reflow so actions sit under the
+/* Schedule: toolbar - title/actions/filters reflow so actions sit under the
    filter tags on mobile instead of beside the title */
 .sa-schedule-toolbar {
   display: grid;

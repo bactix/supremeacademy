@@ -1,31 +1,8 @@
 import Image from "next/image";
+import Link from "next/link";
+import { PROGRAMS } from "../../lib/programs-data";
 
-const PROGRAMS = [
-  {
-    num: "01",
-    name: "Brazilian Jiu-Jitsu",
-    tag: "Gi & No-Gi",
-    img: "https://images.unsplash.com/photo-1747331796135-0e2354a712e4?auto=format&fit=crop&w=1000&q=70",
-    alt: "BJJ grappling",
-    body: "Leverage over strength. Learn to control, escape and submit on the ground through drilled technique and live rolling.",
-  },
-  {
-    num: "02",
-    name: "Judo",
-    tag: "Throws & pins",
-    img: "https://images.unsplash.com/photo-1677170202299-d2edadfa76a1?auto=format&fit=crop&w=1000&q=70",
-    alt: "Judo throw",
-    body: "The art of the throw. Build balance, timing and explosive takedowns, plus the safest way to fall.",
-  },
-  {
-    num: "03",
-    name: "Kickboxing",
-    tag: "Striking & fitness",
-    img: "https://images.unsplash.com/photo-1575800605380-ca1d27744f2c?auto=format&fit=crop&w=1000&q=70",
-    alt: "Kickboxing high kick",
-    body: "Punches, kicks, knees and footwork. Pad rounds that get you fit fast and sparring for those ready to test it.",
-  },
-];
+const CARDS = [...PROGRAMS].sort((a, b) => a.cardNum.localeCompare(b.cardNum));
 
 export default function Programs() {
   return (
@@ -54,8 +31,8 @@ export default function Programs() {
           Our programs
         </h2>
         <p style={{ maxWidth: 420, margin: 0, fontSize: 17, lineHeight: 1.55, color: "#55504a", textWrap: "pretty" }}>
-          Pick one discipline or combine all three. Every membership includes open mat and strength
-          sessions.
+          MMA, Brazilian Jiu-Jitsu, Judo, Boxing, Kickboxing and Muay Thai in Tripoli. Every
+          membership includes open mat and strength sessions.
         </p>
       </div>
       <div
@@ -65,9 +42,9 @@ export default function Programs() {
           gap: 24,
         }}
       >
-        {PROGRAMS.map((p) => (
+        {CARDS.map((p) => (
           <article
-            key={p.num}
+            key={p.slug}
             className="sa-card"
             style={{ background: "#ffffff", display: "flex", flexDirection: "column", border: "1px solid #e7e4df" }}
           >
@@ -78,7 +55,13 @@ export default function Programs() {
                 position: "relative",
               }}
             >
-              <Image src={p.img} alt={p.alt} fill sizes="(max-width: 900px) 100vw, 400px" style={{ objectFit: "cover" }} />
+              <Image
+                src={p.image}
+                alt={p.imageAlt}
+                fill
+                sizes="(max-width: 900px) 100vw, 400px"
+                style={{ objectFit: "cover" }}
+              />
               <span
                 className="font-kanit"
                 style={{
@@ -93,7 +76,7 @@ export default function Programs() {
                   letterSpacing: "0.08em",
                 }}
               >
-                {p.num}
+                {p.cardNum}
               </span>
             </div>
             <div style={{ padding: "28px 28px 32px", display: "flex", flexDirection: "column", gap: 14, flex: 1 }}>
@@ -101,24 +84,35 @@ export default function Programs() {
                 className="font-kanit"
                 style={{ fontStyle: "italic", fontWeight: 800, fontSize: 32, margin: 0, textTransform: "uppercase", lineHeight: 1 }}
               >
-                {p.name}
+                <Link href={`/programs/${p.slug}`} style={{ color: "inherit" }}>
+                  {p.shortName}
+                </Link>
               </h3>
               <div
                 className="font-kanit"
                 style={{ fontWeight: 600, fontSize: 14, color: "#c4520f", textTransform: "uppercase", letterSpacing: "0.1em" }}
               >
-                {p.tag}
+                {p.cardTag}
               </div>
               <p style={{ margin: 0, fontSize: 16, lineHeight: 1.6, color: "#55504a", flex: 1, textWrap: "pretty" }}>
-                {p.body}
+                {p.cardBlurb}
               </p>
-              <a
-                href="#schedule"
-                className="font-kanit"
-                style={{ fontWeight: 600, fontSize: 15, textTransform: "uppercase", letterSpacing: "0.08em", marginTop: 8 }}
-              >
-                See class times →
-              </a>
+              <div style={{ display: "flex", gap: 16, flexWrap: "wrap", marginTop: 8 }}>
+                <Link
+                  href={`/programs/${p.slug}`}
+                  className="font-kanit"
+                  style={{ fontWeight: 600, fontSize: 15, textTransform: "uppercase", letterSpacing: "0.08em" }}
+                >
+                  {p.shortName} classes →
+                </Link>
+                <a
+                  href="#schedule"
+                  className="font-kanit"
+                  style={{ fontWeight: 600, fontSize: 15, textTransform: "uppercase", letterSpacing: "0.08em", color: "#7a746d" }}
+                >
+                  Class times
+                </a>
+              </div>
             </div>
           </article>
         ))}

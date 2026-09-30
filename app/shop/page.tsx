@@ -4,9 +4,9 @@ import ShopCatalog from "../components/shop/ShopCatalog";
 import ShopFooter from "../components/shop/ShopFooter";
 
 export const metadata: Metadata = {
-  title: "Shop — Supreme Academy",
+  title: "Supreme Academy Shop",
   description:
-    "Nutrition, BJJ/Judo and Boxing/Kickboxing gear from Supreme Academy — build an order and send it straight to us on WhatsApp.",
+    "Nutrition, BJJ/Judo and Boxing/Kickboxing gear from Supreme Academy. Build an order and send it straight to us on WhatsApp.",
 };
 
 export default function ShopPage() {

@@ -9,15 +9,23 @@ import Pricing from "./components/home/Pricing";
 import Location from "./components/home/Location";
 import Footer from "./components/home/Footer";
 import WhatsAppButton from "./components/home/WhatsAppButton";
+import { fetchSchedule, toGridSchedule } from "./lib/sheet-schedule";
+import { DEFAULT_SCHED } from "./lib/schedule-data";
 
-export default function Home() {
+export default async function Home() {
+  const { classesByDay, error } = await fetchSchedule();
+  if (error) {
+    console.error("Homepage schedule: falling back to the built-in timetable.", error);
+  }
+  const sched = error ? DEFAULT_SCHED : toGridSchedule(classesByDay);
+
   return (
     <>
       <Header />
       <Hero />
       <MarqueeStrip />
       <Programs />
-      <ScheduleTimetable />
+      <ScheduleTimetable sched={sched} />
       <Instructors />
       <Trial />
       <Pricing />

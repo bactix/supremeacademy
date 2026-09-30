@@ -11,6 +11,8 @@ const inputStyle = {
   outline: "none",
 } as const;
 
+const WHATSAPP_NUMBER = "9613395854";
+
 export default function TrialForm() {
   const [sent, setSent] = useState(false);
 
@@ -30,7 +32,7 @@ export default function TrialForm() {
           You&apos;re in.
         </div>
         <p style={{ fontSize: 17, lineHeight: 1.55, margin: "10px 0 0", color: "#cfcac3" }}>
-          We&apos;ll email you within 24 hours to lock in your first session.
+          We&apos;ll reply on WhatsApp within 24 hours to lock in your first session.
         </p>
       </div>
     );
@@ -40,13 +42,22 @@ export default function TrialForm() {
     <form
       onSubmit={(e) => {
         e.preventDefault();
+        const data = new FormData(e.currentTarget);
+        const name = String(data.get("name") ?? "").trim();
+        const email = String(data.get("email") ?? "").trim();
+        const discipline = String(data.get("discipline") ?? "").trim();
+
+        const message = `Hi Supreme Academy! I'd like to claim my free trial class.\nName: ${name}\nEmail: ${email}\nInterested in: ${discipline}`;
+        const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+        window.open(url, "_blank", "noopener");
+
         setSent(true);
       }}
       style={{ background: "#141414", padding: 32, display: "flex", flexDirection: "column", gap: 14 }}
     >
-      <input required placeholder="Full name" className="sa-input" style={inputStyle} />
-      <input required type="email" placeholder="Email" className="sa-input" style={inputStyle} />
-      <select className="sa-input" style={inputStyle}>
+      <input required name="name" placeholder="Full name" className="sa-input" style={inputStyle} />
+      <input required name="email" type="email" placeholder="Email" className="sa-input" style={inputStyle} />
+      <select name="discipline" className="sa-input" style={inputStyle}>
         <option>Brazilian Jiu-Jitsu</option>
         <option>Judo</option>
         <option>Kickboxing</option>
