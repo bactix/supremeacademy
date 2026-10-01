@@ -63,8 +63,8 @@ function buildGrid(sched: DaySchedule[], activeFilter: FilterKey | "empty" | nul
       const boxStyle: CSSProperties = {
         border: "1px solid #262422",
         borderTop: "none",
-        padding: "6px 4px",
-        minHeight: 56,
+        padding: "8px 6px",
+        minHeight: 72,
         background: found
           ? found[3] === "Only Women"
             ? "rgba(238,106,31,0.08)"
@@ -81,7 +81,7 @@ function buildGrid(sched: DaySchedule[], activeFilter: FilterKey | "empty" | nul
         justifyContent: "center",
         color: closed ? "#5c5852" : "#f7f6f4",
         fontStyle: closed ? "italic" : "normal",
-        fontSize: closed ? 12 : undefined,
+        fontSize: closed ? 14 : undefined,
         textAlign: closed ? "center" : undefined,
         transition: "background 0.15s, opacity 0.15s, box-shadow 0.15s",
       };
@@ -236,9 +236,9 @@ function RowCells({
         className="font-kanit"
         style={{
           fontWeight: 600,
-          fontSize: 11,
+          fontSize: 14,
           color: "#a9a39c",
-          padding: "6px 2px",
+          padding: "6px 4px",
           borderTop: "1px solid #262422",
           display: "flex",
           alignItems: "center",
@@ -270,7 +270,7 @@ function RowCells({
             {cell.closed && (
               <div
                 className="font-kanit"
-                style={{ fontStyle: "italic", fontSize: 12, textAlign: "center" }}
+                style={{ fontStyle: "italic", fontSize: 14, textAlign: "center" }}
               >
                 {cell.name}
               </div>
@@ -282,7 +282,7 @@ function RowCells({
                   style={{
                     fontStyle: "italic",
                     fontWeight: 600,
-                    fontSize: 11,
+                    fontSize: 15,
                     textTransform: "uppercase",
                     lineHeight: 1.15,
                     wordBreak: "break-word",
@@ -290,12 +290,12 @@ function RowCells({
                 >
                   {cell.name}
                 </div>
-                <div style={{ fontSize: 9, color: "#a9a39c", marginTop: 2, wordBreak: "break-word" }}>
+                <div style={{ fontSize: 13, color: "#a9a39c", marginTop: 3, wordBreak: "break-word" }}>
                   {cell.coach}
                 </div>
                 <div
                   style={{
-                    fontSize: 8,
+                    fontSize: 11,
                     color: "#ee6a1f",
                     textTransform: "uppercase",
                     letterSpacing: "0.04em",
@@ -309,7 +309,7 @@ function RowCells({
             {isSelected && (
               <div
                 className="font-kanit"
-                style={{ fontWeight: 700, fontSize: 11, textAlign: "center" }}
+                style={{ fontWeight: 700, fontSize: 14, textAlign: "center" }}
               >
                 ✓ Selected
               </div>
@@ -477,8 +477,8 @@ export default function ScheduleTimetable({
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "64px repeat(7,minmax(0,1fr))",
-              minWidth: 700,
+              gridTemplateColumns: "88px repeat(7,minmax(0,1fr))",
+              minWidth: 1000,
             }}
           >
             <div />
@@ -489,10 +489,10 @@ export default function ScheduleTimetable({
                 style={{
                   fontStyle: "italic",
                   fontWeight: 700,
-                  fontSize: 13,
+                  fontSize: 16,
                   textTransform: "uppercase",
                   textAlign: "center",
-                  padding: "8px 2px",
+                  padding: "10px 2px",
                   color: "#ee6a1f",
                   borderBottom: "2px solid #ee6a1f",
                   overflow: "hidden",
