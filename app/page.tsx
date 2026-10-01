@@ -6,6 +6,7 @@ import ScheduleTimetable from "./components/home/ScheduleTimetable";
 import Instructors from "./components/home/Instructors";
 import Trial from "./components/home/Trial";
 import Pricing from "./components/home/Pricing";
+import Bundles from "./components/home/Bundles";
 import Location from "./components/home/Location";
 import Footer from "./components/home/Footer";
 import WhatsAppButton from "./components/home/WhatsAppButton";
@@ -29,6 +30,7 @@ export default async function Home() {
       <Instructors />
       <Trial />
       <Pricing />
+      <Bundles />
       <Location />
       <Footer />
       <WhatsAppButton />
