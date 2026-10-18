@@ -4,9 +4,21 @@ import { useEffect, useRef, useState, type FormEvent } from "react";
 
 const CATEGORIES = [
   { max: 18.5, label: "Underweight", color: "#2f6fb5" },
-  { max: 25, label: "Healthy weight", color: "#2e8b57" },
-  { max: 30, label: "Overweight", color: "#d98a00" },
-  { max: Infinity, label: "Obese", color: "#c0392b" },
+  { max: 25, label: "Normal", color: "#2e8b57" },
+  { max: 30, label: "Overweight", color: "#b06c00" },
+  { max: Infinity, label: "Obesity", color: "#c0392b" },
+];
+
+// Pre-filled example so the dashboard is populated on first load.
+const DEFAULT_CM = "170";
+const DEFAULT_KG = "70";
+const DEFAULT_RESULT = { bmi: 70 / (1.7 * 1.7), heightM: 1.7 };
+
+const LEGEND = [
+  { label: "Underweight", range: "below 18.5", colors: ["#c0262a", "#d98c8c", "#ffe100"] },
+  { label: "Normal", range: "18.5 – 24.9", colors: ["#0a8a3c"] },
+  { label: "Overweight", range: "25 – 29.9", colors: ["#ffe100"] },
+  { label: "Obesity", range: "30 and above", colors: ["#d98c8c", "#c0262a", "#8a0000"] },
 ];
 
 const inputStyle = {
@@ -62,18 +74,19 @@ function bandPath(from: number, to: number) {
   return `M${a.x} ${a.y} A${G_OUTER} ${G_OUTER} 0 0 1 ${b.x} ${b.y} L${c.x} ${c.y} A${G_INNER} ${G_INNER} 0 0 0 ${d.x} ${d.y}Z`;
 }
 
-function BmiGauge({ bmi }: { bmi: number }) {
-  // Needle starts at the far left and swings to the value; the number counts up alongside it.
+function BmiGauge({ bmi }: { bmi: number | null }) {
+  // Rests at the far left with no value; swings to the BMI and counts the number up once there is one.
   const [needle, setNeedle] = useState(-90);
   const [shown, setShown] = useState(G_MIN);
   const shownRef = useRef(G_MIN);
 
   useEffect(() => {
+    const target = bmi ?? G_MIN;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const raf0 = requestAnimationFrame(() => setNeedle(valueToDeg(bmi) - 90));
+    const raf0 = requestAnimationFrame(() => setNeedle(valueToDeg(target) - 90));
     if (reduce) {
-      shownRef.current = bmi;
-      setShown(bmi);
+      shownRef.current = target;
+      setShown(target);
       return () => cancelAnimationFrame(raf0);
     }
     const from = shownRef.current;
@@ -82,7 +95,7 @@ function BmiGauge({ bmi }: { bmi: number }) {
     const tick = (now: number) => {
       const t = Math.min(1, (now - start) / G_DURATION);
       const eased = 1 - Math.pow(1 - t, 3);
-      const v = from + (bmi - from) * eased;
+      const v = from + (target - from) * eased;
       shownRef.current = v;
       setShown(v);
       if (t < 1) raf = requestAnimationFrame(tick);
@@ -95,9 +108,9 @@ function BmiGauge({ bmi }: { bmi: number }) {
   }, [bmi]);
 
   return (
-    <svg viewBox="0 0 400 235" role="img" aria-label={`BMI gauge showing ${bmi.toFixed(1)}`} style={{ width: "100%", maxWidth: 440, display: "block", margin: "0 auto" }}>
+    <svg viewBox="0 0 400 235" role="img" aria-label={bmi === null ? "BMI gauge, no result yet" : `BMI gauge showing ${bmi.toFixed(1)}`} style={{ width: "100%", maxWidth: 440, display: "block", margin: "0 auto" }}>
       {BANDS.map((b) => (
-        <path key={b.from} d={bandPath(b.from, b.to)} fill={b.color} stroke="#121212" strokeWidth={1.5} />
+        <path key={b.from} d={bandPath(b.from, b.to)} fill={b.color} stroke="#f7f3ec" strokeWidth={1.5} />
       ))}
       {TICKS.map((t) => {
         const p = polar(G_OUTER - 14, t);
@@ -114,12 +127,12 @@ function BmiGauge({ bmi }: { bmi: number }) {
           transition: `transform ${G_DURATION}ms cubic-bezier(0.22, 1.2, 0.36, 1)`,
         }}
       >
-        <line x1={G_CX} y1={G_CY} x2={G_CX} y2={G_CY - G_INNER + 6} stroke="#cfcac3" strokeWidth={3} />
-        <polygon points={`${G_CX},${G_CY - G_OUTER + 4} ${G_CX - 9},${G_CY - G_INNER - 8} ${G_CX + 9},${G_CY - G_INNER - 8}`} fill="#f7f6f4" />
+        <line x1={G_CX} y1={G_CY} x2={G_CX} y2={G_CY - G_INNER + 6} stroke="#141414" strokeWidth={3} />
+        <polygon points={`${G_CX},${G_CY - G_OUTER + 4} ${G_CX - 9},${G_CY - G_INNER - 8} ${G_CX + 9},${G_CY - G_INNER - 8}`} fill="#141414" />
       </g>
-      <circle cx={G_CX} cy={G_CY} r={7} fill="#cfcac3" />
-      <text x={G_CX} y={G_CY + 28} textAnchor="middle" fill="#f7f6f4" fontSize={44} fontWeight={800} fontStyle="italic" className="font-kanit">
-        {shown.toFixed(1)}
+      <circle cx={G_CX} cy={G_CY} r={7} fill="#141414" />
+      <text x={G_CX} y={G_CY + 28} textAnchor="middle" fill="#141414" fontSize={44} fontWeight={800} fontStyle="italic" className="font-kanit">
+        {bmi === null ? "--" : shown.toFixed(1)}
       </text>
     </svg>
   );
@@ -162,10 +175,10 @@ function Field({
 }
 
 export default function BmiCalculator() {
-  const [cm, setCm] = useState("");
-  const [kg, setKg] = useState("");
+  const [cm, setCm] = useState(DEFAULT_CM);
+  const [kg, setKg] = useState(DEFAULT_KG);
 
-  const [result, setResult] = useState<{ bmi: number; heightM: number } | null>(null);
+  const [result, setResult] = useState<{ bmi: number; heightM: number } | null>(DEFAULT_RESULT);
   const [error, setError] = useState("");
 
   function calculate(e: FormEvent) {
@@ -188,9 +201,9 @@ export default function BmiCalculator() {
   }
 
   function reset() {
-    setCm("");
-    setKg("");
-    setResult(null);
+    setCm(DEFAULT_CM);
+    setKg(DEFAULT_KG);
+    setResult(DEFAULT_RESULT);
     setError("");
   }
 
@@ -255,8 +268,9 @@ export default function BmiCalculator() {
       <div
         aria-live="polite"
         style={{
-          background: "#121212",
-          color: "#f7f6f4",
+          background: "#f7f3ec",
+          border: "1px solid #e7e4df",
+          color: "#141414",
           padding: 32,
           display: "flex",
           flexDirection: "column",
@@ -264,29 +278,45 @@ export default function BmiCalculator() {
           minHeight: 280,
         }}
       >
+        <div className="font-kanit" style={{ fontSize: 13, fontWeight: 600, letterSpacing: "0.2em", textTransform: "uppercase", color: "#7a746d" }}>
+          Your BMI
+        </div>
+        <BmiGauge bmi={bmi} />
         {bmi !== null && category ? (
-          <>
-            <div className="font-kanit" style={{ fontSize: 13, fontWeight: 600, letterSpacing: "0.2em", textTransform: "uppercase", color: "#a9a39c" }}>
-              Your BMI
-            </div>
-            <BmiGauge bmi={bmi} />
-            <div
-              className="font-kanit"
-              style={{ fontWeight: 700, fontSize: 24, textTransform: "uppercase", textAlign: "center", marginTop: 8, color: category.color === "#2f6fb5" ? "#6aa6e8" : category.color }}
-            >
-              {category.label}
-            </div>
-            <p style={{ margin: "20px 0 0", fontSize: 15, lineHeight: 1.6, color: "#cfcac3" }}>
-              A healthy BMI (18.5 to 24.9) for your height is{" "}
-              <strong style={{ color: "#ffffff" }}>
-                {fmtWeight(18.5 * heightM * heightM)} to {fmtWeight(24.9 * heightM * heightM)}
-              </strong>
-              .
-            </p>
-          </>
+          <div
+            className="font-kanit"
+            style={{ fontWeight: 700, fontSize: 24, textTransform: "uppercase", textAlign: "center", marginTop: 8, color: category.color }}
+          >
+            {category.label}
+          </div>
         ) : (
-          <p style={{ margin: 0, fontSize: 17, lineHeight: 1.6, color: "#a9a39c" }}>
+          <p style={{ margin: "8px 0 0", textAlign: "center", fontSize: 15, lineHeight: 1.6, color: "#7a746d" }}>
             Enter your height and weight, then press Calculate.
+          </p>
+        )}
+        <ul style={{ listStyle: "none", margin: "20px 0 0", padding: 0, display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(150px,1fr))", gap: 10 }}>
+              {LEGEND.map((l) => (
+                <li key={l.label} style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                  <span style={{ display: "flex", flexShrink: 0 }} aria-hidden="true">
+                    {l.colors.map((c, i) => (
+                      <span key={i} style={{ width: 10, height: 18, background: c }} />
+                    ))}
+                  </span>
+                  <span style={{ fontSize: 14, lineHeight: 1.3, color: "#55504a" }}>
+                    <strong style={{ color: "#141414" }}>{l.label}</strong>
+                    <br />
+                    {l.range}
+                  </span>
+                </li>
+              ))}
+        </ul>
+        {bmi !== null && (
+          <p style={{ margin: "20px 0 0", fontSize: 15, lineHeight: 1.6, color: "#55504a" }}>
+            A healthy BMI (18.5 to 24.9) for your height is{" "}
+            <strong style={{ color: "#141414" }}>
+              {fmtWeight(18.5 * heightM * heightM)} to {fmtWeight(24.9 * heightM * heightM)}
+            </strong>
+            .
           </p>
         )}
       </div>
