@@ -62,6 +62,7 @@ export default function Header() {
           <a href="#instructors">Team</a>
           <a href="#pricing">Plans</a>
           <a href="/shop">Shop</a>
+          <a href="/tools">Tools</a>
           <a
             href="#trial"
             className="sa-nav-cta"

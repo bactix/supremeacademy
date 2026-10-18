@@ -115,14 +115,32 @@ export default function ProgramPage({ program }: { program: Program }) {
               clipPath: "polygon(14% 0,100% 0,86% 100%,0 100%)",
             }}
           >
-            <Image
-              src={program.image}
-              alt={program.imageAlt}
-              fill
-              priority
-              sizes="(max-width: 900px) 100vw, 600px"
-              style={{ objectFit: "cover" }}
-            />
+            {program.image ? (
+              <Image
+                src={program.image}
+                alt={program.imageAlt}
+                fill
+                priority
+                sizes="(max-width: 900px) 100vw, 600px"
+                style={{ objectFit: "cover" }}
+              />
+            ) : (
+              <div
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  background: "repeating-linear-gradient(135deg,#1c1c1c 0 12px,#232323 12px 24px)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontFamily: "ui-monospace, Menlo, monospace",
+                  fontSize: 12,
+                  color: "#7a746d",
+                }}
+              >
+                {program.name} photo
+              </div>
+            )}
           </div>
         </div>
       </section>
@@ -197,7 +215,7 @@ export default function ProgramPage({ program }: { program: Program }) {
             {program.shortName} <span style={{ color: "#ee6a1f" }}>weekly schedule</span>
           </h2>
           <p style={{ margin: "0 0 32px", fontSize: 15, color: "#a9a39c" }}>
-            All classes at Supreme Academy, Tripoli. Open mat included with membership.
+            All classes at Supreme Academy, Tripoli.{program.category === "martial-arts" && " Open mat included with membership."}
           </p>
           <div style={{ display: "flex", flexDirection: "column", gap: 1 }}>
             {program.schedule.map((entry) => (
@@ -218,7 +236,7 @@ export default function ProgramPage({ program }: { program: Program }) {
                   {entry.day}
                 </div>
                 <div style={{ fontSize: 15, color: "#cfcac3" }}>{entry.time}</div>
-                <div style={{ fontSize: 14, color: "#a9a39c" }}>{entry.coach}</div>
+                {entry.coach && <div style={{ fontSize: 14, color: "#a9a39c" }}>{entry.coach}</div>}
                 {entry.note && (
                   <div
                     className="font-kanit"

@@ -27,7 +27,7 @@ export default async function Home() {
       <MarqueeStrip />
       <Programs />
       <ScheduleTimetable sched={sched} />
-      <Instructors />
+      <Instructors sched={sched} />
       <Trial />
       <Pricing />
       <Bundles />

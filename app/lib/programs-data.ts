@@ -4,6 +4,7 @@ export type Program = {
   slug: string;
   name: string;
   shortName: string;
+  category: "martial-arts" | "fitness";
   cardNum: string;
   cardTag: string;
   cardBlurb: string;
@@ -16,7 +17,8 @@ export type Program = {
   coaches: string[];
   schedule: ScheduleEntry[];
   faqs: { question: string; answer: string }[];
-  image: string;
+  // Optional: programs without a photo yet render a placeholder.
+  image?: string;
   imageAlt: string;
 };
 
@@ -25,6 +27,7 @@ export const PROGRAMS: Program[] = [
     slug: "mma",
     name: "MMA",
     shortName: "MMA",
+    category: "martial-arts",
     cardNum: "06",
     cardTag: "All ranges",
     cardBlurb:
@@ -75,6 +78,7 @@ export const PROGRAMS: Program[] = [
     slug: "bjj",
     name: "Brazilian Jiu-Jitsu",
     shortName: "BJJ",
+    category: "martial-arts",
     cardNum: "01",
     cardTag: "Gi & No-Gi",
     cardBlurb:
@@ -124,6 +128,7 @@ export const PROGRAMS: Program[] = [
     slug: "judo",
     name: "Judo",
     shortName: "Judo",
+    category: "martial-arts",
     cardNum: "02",
     cardTag: "Throws & pins",
     cardBlurb:
@@ -174,6 +179,7 @@ export const PROGRAMS: Program[] = [
     slug: "boxing",
     name: "Boxing",
     shortName: "Boxing",
+    category: "martial-arts",
     cardNum: "03",
     cardTag: "Pads & footwork",
     cardBlurb:
@@ -224,6 +230,7 @@ export const PROGRAMS: Program[] = [
     slug: "kickboxing",
     name: "Kickboxing",
     shortName: "Kickboxing",
+    category: "martial-arts",
     cardNum: "04",
     cardTag: "Striking & fitness",
     cardBlurb:
@@ -275,6 +282,7 @@ export const PROGRAMS: Program[] = [
     slug: "muay-thai",
     name: "Muay Thai",
     shortName: "Muay Thai",
+    category: "martial-arts",
     cardNum: "05",
     cardTag: "Clinch & knees",
     cardBlurb:
@@ -319,6 +327,267 @@ export const PROGRAMS: Program[] = [
     ],
     image: "/assets/hero-fighter.png",
     imageAlt: "Muay Thai clinch and striking class at Supreme Academy in Tripoli",
+  },
+  {
+    slug: "belly-dance",
+    name: "Belly Dance",
+    shortName: "Belly Dance",
+    category: "fitness",
+    cardNum: "01",
+    cardTag: "Women only",
+    cardBlurb: "A women-only dance class that builds rhythm, flexibility and confidence.",
+    metaTitle: "Belly Dance Classes in Tripoli, Lebanon | Supreme Academy",
+    metaDescription: "Belly Dance classes in Tripoli at Supreme Academy with Coach Amar. Book a free trial class.",
+    h1: "Belly Dance Classes in Tripoli",
+    tagline: "Rhythm, flexibility and confidence",
+    intro: ["Belly Dance at Supreme Academy is a women-only class in Tripoli taught by Coach Amar. Sessions focus on rhythm, body control and flexibility in a supportive setting.", "The class runs twice a week and sits alongside the rest of the Supreme Academy fitness timetable."],
+    benefits: ["Women-only class in a supportive setting", "Builds rhythm, flexibility and body control", "Taught by Coach Amar, twice a week", "Pairs well with Pilates, Zumba and Extreme Fitness"],
+    coaches: ["Coach Amar"],
+    schedule: [
+      { day: "Monday", time: "7:00–8:00", coach: "Coach Amar" },
+      { day: "Saturday", time: "7:00–8:00", coach: "Coach Amar" },
+    ],
+    faqs: [
+      {
+        question: "Do I need experience to join Belly Dance?",
+        answer: "Check the class tag for who it is open to. The team can help you pick the right starting point, and a free trial class is available.",
+      },
+      {
+        question: "What should I bring to my first Belly Dance class?",
+        answer: "Comfortable training clothes and water.",
+      },
+    ],
+    imageAlt: "Belly Dance class at Supreme Academy in Tripoli",
+  },
+  {
+    slug: "bungee-jumping",
+    name: "Bungee Jumping",
+    shortName: "Bungee Jumping",
+    category: "fitness",
+    cardNum: "02",
+    cardTag: "Women only",
+    cardBlurb: "High-energy women-only bungee fitness: cardio, strength and fun in the air.",
+    metaTitle: "Bungee Jumping Classes in Tripoli, Lebanon | Supreme Academy",
+    metaDescription: "Bungee Jumping classes in Tripoli at Supreme Academy with Coach Danya and Coach Dodji. Book a free trial class.",
+    h1: "Bungee Jumping Classes in Tripoli",
+    tagline: "Cardio and strength, suspended",
+    intro: ["Bungee Jumping at Supreme Academy is a women-only fitness class in Tripoli combining cardio and strength work. Sessions are led by Coach Danya and Coach Dodji.", "Classes run four times a week across the timetable, so it is easy to fit around other training."],
+    benefits: ["Women-only class with a high-energy format", "Cardio and strength work in one session", "Taught by Coach Danya and Coach Dodji, four times a week", "Runs alongside the full fitness and martial arts timetable"],
+    coaches: ["Coach Danya", "Coach Dodji"],
+    schedule: [
+      { day: "Monday", time: "12:00–1:00", coach: "Coach Danya" },
+      { day: "Tuesday", time: "5:00–6:00", coach: "Coach Dodji" },
+      { day: "Wednesday", time: "12:00–1:00", coach: "Coach Danya" },
+      { day: "Thursday", time: "5:00–6:00", coach: "Coach Dodji" },
+    ],
+    faqs: [
+      {
+        question: "Do I need experience to join Bungee Jumping?",
+        answer: "Check the class tag for who it is open to. The team can help you pick the right starting point, and a free trial class is available.",
+      },
+      {
+        question: "What should I bring to my first Bungee Jumping class?",
+        answer: "Comfortable training clothes and water.",
+      },
+    ],
+    imageAlt: "Bungee Jumping class at Supreme Academy in Tripoli",
+  },
+  {
+    slug: "cardio",
+    name: "Cardio",
+    shortName: "Cardio",
+    category: "fitness",
+    cardNum: "03",
+    cardTag: "All levels",
+    cardBlurb: "An all-levels cardio class to build stamina, burn energy and keep training consistent.",
+    metaTitle: "Cardio Classes in Tripoli, Lebanon | Supreme Academy",
+    metaDescription: "Cardio classes in Tripoli at Supreme Academy with Coach Mohamad. Book a free trial class.",
+    h1: "Cardio Classes in Tripoli",
+    tagline: "Build stamina, burn energy",
+    intro: ["Cardio at Supreme Academy is an open-to-all class in Tripoli built around conditioning and stamina. Sessions are led by Coach Mohamad.", "Classes run in the late morning, making it a good fit for building fitness around other training."],
+    benefits: ["Open to all levels", "Builds stamina and conditioning", "Taught by Coach Mohamad", "Complements martial arts and strength training"],
+    coaches: ["Coach Mohamad"],
+    schedule: [
+      { day: "Monday", time: "11:00–12:00", coach: "Coach Mohamad" },
+      { day: "Wednesday", time: "11:00–12:00", coach: "Coach Mohamad" },
+      { day: "Saturday", time: "11:00–12:00", coach: "" },
+    ],
+    faqs: [
+      {
+        question: "Do I need experience to join Cardio?",
+        answer: "Check the class tag for who it is open to. The team can help you pick the right starting point, and a free trial class is available.",
+      },
+      {
+        question: "What should I bring to my first Cardio class?",
+        answer: "Comfortable training clothes and water.",
+      },
+    ],
+    imageAlt: "Cardio class at Supreme Academy in Tripoli",
+  },
+  {
+    slug: "extreme-fitness",
+    name: "Extreme Fitness",
+    shortName: "Extreme Fitness",
+    category: "fitness",
+    cardNum: "04",
+    cardTag: "Women only",
+    cardBlurb: "Women-only full-body training: strength, conditioning and endurance.",
+    metaTitle: "Extreme Fitness Classes in Tripoli, Lebanon | Supreme Academy",
+    metaDescription: "Extreme Fitness classes in Tripoli at Supreme Academy with Coach Rouba. Book a free trial class.",
+    h1: "Extreme Fitness Classes in Tripoli",
+    tagline: "Full-body strength and conditioning",
+    intro: ["Extreme Fitness at Supreme Academy is a women-only training class in Tripoli covering strength, conditioning and endurance. Sessions are led by Coach Rouba.", "It is the most frequent class on the timetable, with morning and evening sessions across the week."],
+    benefits: ["Women-only class with full-body training", "Strength, conditioning and endurance in one session", "Taught by Coach Rouba, with morning and evening options", "Six sessions a week so you can choose what fits"],
+    coaches: ["Coach Rouba"],
+    schedule: [
+      { day: "Monday", time: "8:30–9:30", coach: "Coach Rouba" },
+      { day: "Monday", time: "5:00–6:00", coach: "Coach Rouba" },
+      { day: "Wednesday", time: "8:30–9:30", coach: "Coach Rouba" },
+      { day: "Wednesday", time: "5:00–6:00", coach: "Coach Rouba" },
+      { day: "Friday", time: "8:30–9:30", coach: "Coach Rouba" },
+      { day: "Friday", time: "5:00–6:00", coach: "Coach Rouba" },
+    ],
+    faqs: [
+      {
+        question: "Do I need experience to join Extreme Fitness?",
+        answer: "Check the class tag for who it is open to. The team can help you pick the right starting point, and a free trial class is available.",
+      },
+      {
+        question: "What should I bring to my first Extreme Fitness class?",
+        answer: "Comfortable training clothes and water.",
+      },
+    ],
+    imageAlt: "Extreme Fitness class at Supreme Academy in Tripoli",
+  },
+  {
+    slug: "gymnastics",
+    name: "Gymnastics",
+    shortName: "Gymnastics",
+    category: "fitness",
+    cardNum: "05",
+    cardTag: "All levels",
+    cardBlurb: "Gymnastics for all levels: body control, mobility and strength fundamentals.",
+    metaTitle: "Gymnastics Classes in Tripoli, Lebanon | Supreme Academy",
+    metaDescription: "Gymnastics classes in Tripoli at Supreme Academy with Coach Rana. Book a free trial class.",
+    h1: "Gymnastics Classes in Tripoli",
+    tagline: "Body control, mobility and strength",
+    intro: ["Gymnastics at Supreme Academy is an all-levels class in Tripoli focused on body control, mobility and strength fundamentals. Sessions are led by Coach Rana.", "Classes run twice a week in the afternoon."],
+    benefits: ["Open to all levels", "Develops body control, mobility and strength", "Taught by Coach Rana, twice a week", "A strong base for any other sport or martial art"],
+    coaches: ["Coach Rana"],
+    schedule: [
+      { day: "Thursday", time: "4:00–5:00", coach: "Coach Rana" },
+      { day: "Saturday", time: "4:00–5:00", coach: "Coach Rana" },
+    ],
+    faqs: [
+      {
+        question: "Do I need experience to join Gymnastics?",
+        answer: "Check the class tag for who it is open to. The team can help you pick the right starting point, and a free trial class is available.",
+      },
+      {
+        question: "What should I bring to my first Gymnastics class?",
+        answer: "Comfortable training clothes and water.",
+      },
+    ],
+    imageAlt: "Gymnastics class at Supreme Academy in Tripoli",
+  },
+  {
+    slug: "pilates",
+    name: "Pilates",
+    shortName: "Pilates",
+    category: "fitness",
+    cardNum: "06",
+    cardTag: "Core & posture",
+    cardBlurb: "Pilates for core strength, posture and mobility, with sessions through the week.",
+    metaTitle: "Pilates Classes in Tripoli, Lebanon | Supreme Academy",
+    metaDescription: "Pilates classes in Tripoli at Supreme Academy with Coach Danya. Book a free trial class.",
+    h1: "Pilates Classes in Tripoli",
+    tagline: "Core strength, posture and mobility",
+    intro: ["Pilates at Supreme Academy is taught in Tripoli by Coach Danya, focusing on core strength, posture and mobility.", "It is one of the most frequent classes on the timetable, with sessions on most days of the week."],
+    benefits: ["Builds core strength, posture and mobility", "Taught by Coach Danya", "Sessions on most days of the week", "A good complement to martial arts and strength training"],
+    coaches: ["Coach Danya"],
+    schedule: [
+      { day: "Tuesday", time: "11:00–12:00", coach: "Coach Danya" },
+      { day: "Tuesday", time: "4:00–5:00", coach: "Coach Danya" },
+      { day: "Thursday", time: "11:00–12:00", coach: "Coach Danya" },
+      { day: "Friday", time: "11:00–12:00", coach: "Coach Danya" },
+      { day: "Saturday", time: "10:00–11:00", coach: "Coach Danya" },
+    ],
+    faqs: [
+      {
+        question: "Do I need experience to join Pilates?",
+        answer: "Check the class tag for who it is open to. The team can help you pick the right starting point, and a free trial class is available.",
+      },
+      {
+        question: "What should I bring to my first Pilates class?",
+        answer: "Comfortable training clothes and water.",
+      },
+    ],
+    imageAlt: "Pilates class at Supreme Academy in Tripoli",
+  },
+  {
+    slug: "u-bound",
+    name: "U Bound",
+    shortName: "U Bound",
+    category: "fitness",
+    cardNum: "07",
+    cardTag: "Women only",
+    cardBlurb: "U Bound: a women-only class with sessions through the week.",
+    metaTitle: "U Bound Classes in Tripoli, Lebanon | Supreme Academy",
+    metaDescription: "U Bound classes in Tripoli at Supreme Academy. Book a free trial class.",
+    h1: "U Bound Classes in Tripoli",
+    tagline: "Women-only sessions through the week",
+    intro: ["U Bound at Supreme Academy is a women-only class in Tripoli, with sessions across the week.", "See the weekly timetable for current times."],
+    benefits: ["Women-only class", "Multiple sessions across the week", "Runs alongside the full fitness and martial arts timetable", "Ask the team for details when you book your trial"],
+    coaches: [],
+    schedule: [
+      { day: "Monday", time: "4:00–5:00", coach: "" },
+      { day: "Tuesday", time: "10:00–11:00", coach: "" },
+      { day: "Tuesday", time: "3:00–4:00", coach: "" },
+      { day: "Thursday", time: "10:00–11:00", coach: "" },
+    ],
+    faqs: [
+      {
+        question: "Do I need experience to join U Bound?",
+        answer: "Check the class tag for who it is open to. The team can help you pick the right starting point, and a free trial class is available.",
+      },
+      {
+        question: "What should I bring to my first U Bound class?",
+        answer: "Comfortable training clothes and water.",
+      },
+    ],
+    imageAlt: "U Bound class at Supreme Academy in Tripoli",
+  },
+  {
+    slug: "zumba",
+    name: "Zumba",
+    shortName: "Zumba",
+    category: "fitness",
+    cardNum: "08",
+    cardTag: "Women only",
+    cardBlurb: "Dance-based cardio that feels like a party: Zumba for women.",
+    metaTitle: "Zumba Classes in Tripoli, Lebanon | Supreme Academy",
+    metaDescription: "Zumba classes in Tripoli at Supreme Academy with Coach Danya. Book a free trial class.",
+    h1: "Zumba Classes in Tripoli",
+    tagline: "Dance-based cardio",
+    intro: ["Zumba at Supreme Academy is a women-only dance-fitness class in Tripoli. Sessions are led by Coach Danya.", "Classes run three times a week."],
+    benefits: ["Women-only dance-fitness class", "Cardio that feels like a party", "Taught by Coach Danya, three times a week", "Pairs well with Pilates and Extreme Fitness"],
+    coaches: ["Coach Danya"],
+    schedule: [
+      { day: "Monday", time: "3:00–4:00", coach: "Coach Danya" },
+      { day: "Friday", time: "12:00–1:00", coach: "Coach Danya" },
+      { day: "Saturday", time: "2:00–3:00", coach: "Coach Danya" },
+    ],
+    faqs: [
+      {
+        question: "Do I need experience to join Zumba?",
+        answer: "Check the class tag for who it is open to. The team can help you pick the right starting point, and a free trial class is available.",
+      },
+      {
+        question: "What should I bring to my first Zumba class?",
+        answer: "Comfortable training clothes and water.",
+      },
+    ],
+    imageAlt: "Zumba class at Supreme Academy in Tripoli",
   },
 ];
 

@@ -73,10 +73,7 @@ export default async function Page({
         byDay: `https://schema.org/${entry.day}`,
         startTime: entry.time.split("–")[0],
       },
-      instructor: {
-        "@type": "Person",
-        name: entry.coach,
-      },
+      ...(entry.coach && { instructor: { "@type": "Person", name: entry.coach } }),
       location: {
         "@type": "Place",
         name: BUSINESS.name,
