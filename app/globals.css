@@ -64,6 +64,83 @@ select {
   border-color: var(--sa-orange) !important;
 }
 
+/* Membership plans: the avatar sits behind the card and rises into view on hover */
+.sa-plan-avatar {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% - 2px);
+  z-index: 0;
+  width: 230px;
+  max-width: 100%;
+  transform: translate(-50%, 90%);
+  opacity: 0;
+  transition: transform 0.8s cubic-bezier(0.22, 1.2, 0.36, 1), opacity 0.6s ease;
+  pointer-events: none;
+  /* the artwork has a near-black backdrop; lighten blends it into the section */
+  mix-blend-mode: lighten;
+}
+
+.sa-plan:hover .sa-plan-avatar {
+  transform: translate(-50%, 0);
+  opacity: 1;
+}
+
+.sa-plan:hover > div:last-child {
+  border-color: var(--sa-orange) !important;
+}
+
+/* Touch / narrow screens: no hover, so the avatar slides in from the right
+   (inside its card) when the plan scrolls into view */
+@media (hover: none), (max-width: 720px) {
+  .sa-plan-grid {
+    padding-top: 0 !important;
+  }
+
+  .sa-plan {
+    overflow: hidden;
+  }
+
+  .sa-plan .sa-plan-avatar,
+  .sa-plan:hover .sa-plan-avatar {
+    left: auto;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 2;
+    width: 58%;
+    max-width: none;
+    transform: translateX(110%);
+    opacity: 0;
+    transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.6s ease;
+  }
+
+  /* the picture fills the card's height instead of floating in it */
+  .sa-plan .sa-plan-avatar img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover;
+    object-position: center bottom;
+  }
+
+  .sa-plan .sa-plan-avatar[data-fit="contain"] img {
+    object-fit: contain;
+  }
+
+  .sa-plan .sa-plan-avatar.is-inview,
+  .sa-plan:hover .sa-plan-avatar.is-inview {
+    transform: none;
+    opacity: 1;
+    transition-delay: calc(var(--sa-order, 0) * 0.2s);
+  }}
+
+@media (prefers-reduced-motion: reduce) {
+  .sa-plan-avatar,
+  .sa-plan .sa-plan-avatar,
+  .sa-plan:hover .sa-plan-avatar {
+    transition: none;
+  }
+}
+
 /* Trial form */
 .sa-input:focus {
   border-color: var(--sa-orange) !important;

@@ -1,8 +1,10 @@
+import PlanAvatar from "./PlanAvatar";
+
 const PLANS = [
-  { name: "Starter", label: "1 Month", months: 1, price: 30 },
-  { name: "Committed", label: "3 Months", months: 3, price: 80 },
-  { name: "Warrior", label: "6 Months", months: 6, price: 150, badge: "Most Popular" },
-  { name: "Champion", label: "1 Year", months: 12, price: 280, badge: "Best Value" },
+  { name: "Starter", label: "1 Month", months: 1, price: 30, avatar: "/assets/starter-avatar.jpg" },
+  { name: "Committed", label: "3 Months", months: 3, price: 80, avatar: "/assets/warrior-avatar.jpg" },
+  { name: "Warrior", label: "6 Months", months: 6, price: 150, badge: "Most Popular", avatar: "/assets/committed-avatar.jpg" },
+  { name: "Champion", label: "1 Year", months: 12, price: 280, badge: "Best Value", avatar: "/assets/champion-avatar.jpg" },
 ].map((p) => ({
   ...p,
   saving: p.months * 30 - p.price,
@@ -26,14 +28,20 @@ export default function Pricing() {
         >
           Membership <span style={{ color: "#ee6a1f" }}>plans</span>
         </h2>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,240px),1fr))", gap: 24 }}>
-          {PLANS.map((pl) => (
+        <div className="sa-plan-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,240px),1fr))", gap: 24, paddingTop: 124 }}>
+          {PLANS.map((pl, i) => (
+            <div key={pl.name} className="sa-plan" style={{ position: "relative" }}>
+              {pl.avatar && <PlanAvatar src={pl.avatar} order={i} fit={pl.name === "Starter" ? "contain" : "cover"} />}
             <div
-              key={pl.name}
               style={{
+                position: "relative",
+                zIndex: 1,
+                height: "100%",
                 border: `1px solid ${pl.badge ? "#ee6a1f" : "#262422"}`,
                 padding: "32px 24px",
-                background: pl.badge ? "rgba(238,106,31,0.06)" : "transparent",
+                background: pl.badge
+                  ? "linear-gradient(rgba(238,106,31,0.06),rgba(238,106,31,0.06)), #0c0c0c"
+                  : "#0c0c0c",
               }}
             >
               <div
@@ -77,6 +85,7 @@ export default function Pricing() {
                   {pl.badge}
                 </div>
               )}
+            </div>
             </div>
           ))}
         </div>
